@@ -44,16 +44,14 @@ utility::addJsonCmd::entry::args quickjs_ng::entryCmd( const QString& e )
 	return data ;
 }
 
-void quickjs_ng::init( Logger& logger,const engines::enginePaths& enginePath )
+void quickjs_ng::init( QJsonObject& mainObj,const engines::enginePaths& enginePath )
 {
-	auto m = enginePath.enginePath( "quickjs_ng.json" ) ;
+	auto m = enginePath.enginePath( "quickjs_ng.json.json" ) ;
 
 	if( QFile::exists( m ) ){
 
-		return ;
+		QFile::remove( m ) ;
 	}
-
-	QJsonObject mainObj ;
 
 	utility::addJsonCmd json( mainObj ) ;
 
@@ -64,6 +62,8 @@ void quickjs_ng::init( Logger& logger,const engines::enginePaths& enginePath )
 	json.add( "MacOS",quickjs_ng::entryCmd ) ;
 
 	json.done() ;
+
+	mainObj.insert( "UpdatableSupportingEngine",true ) ;
 
 	mainObj.insert( "Version","1" ) ;
 
@@ -84,8 +84,6 @@ void quickjs_ng::init( Logger& logger,const engines::enginePaths& enginePath )
 	mainObj.insert( "VersionStringPosition",0 ) ;
 
 	mainObj.insert( "LikeYoutubeDl",false ) ;
-
-	engines::file( m,logger ).write( mainObj ) ;
 }
 
 void quickjs_ng::remove( Logger&,const engines::enginePaths& enginePath )

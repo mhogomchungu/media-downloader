@@ -339,13 +339,19 @@ engines::EnginesList::engine engines::getSupportingEngineByName( const QString& 
 		return oo ;
 	}() ) ;
 
-	if( e == "ffmpeg" ){
+	if( e == "deno" ){
+
+		deno::init( obj,m_settings,m_enginePaths ) ;
+
+	}else if( e == "quickjs-ng" ){
+
+		quickjs_ng::init( obj,m_enginePaths ) ;
+
+	}else if( e == "ffmpeg" ){
 
 		ffmpeg::init( obj,m_enginePaths ) ;
 
 	}else if( e == "python" || e == "python3" ){
-
-		obj.insert( "Name","python" ) ;
 
 		python::init( obj,m_enginePaths ) ;
 
@@ -420,6 +426,11 @@ void engines::setDefaultEngine( const QString& name )
 	}
 }
 
+bool engines::engineAdd( engines::EnginesList::engine m,int id )
+{
+	return this->engineAdd( "",m.move(),id ) ;
+}
+
 bool engines::engineAdd( const QString& jsonFile,engines::EnginesList::engine m,int id )
 {
 	if( m.valid() ){
@@ -469,16 +480,42 @@ void engines::updateEngines( int id )
 
 	if( utility::platformIsWindows() ){
 
-		this->engineAdd( "",this->getSupportingEngineByName( "bsdtar" ),id ) ;
+		this->engineAdd( this->getSupportingEngineByName( "bsdtar" ),id ) ;
+
+		if( utility::platformIsLegacyWindows() ){
+
+			this->engineAdd( this->getSupportingEngineByName( "quickjs-ng" ),id ) ;
+		}else{
+			this->engineAdd( this->getSupportingEngineByName( "deno" ),id ) ;
+		}
 	}else{
-		this->engineAdd( "",this->getSupportingEngineByName( "tar" ),id ) ;
+		this->engineAdd( this->getSupportingEngineByName( "tar" ),id ) ;
+
+		if( utility::platformIsAppImage() || utility::platformisFlatPak() ){
+
+			auto name = engines::engine::jsRuntimeInstalled( *this ).name() ;
+
+			if( name == "deno" ){
+
+				this->engineAdd( this->getSupportingEngineByName( "deno" ),id ) ;
+			}else{
+				this->engineAdd( this->getSupportingEngineByName( "quickjs-ng" ),id ) ;
+			}
+
+		}else if( utility::platformIsLinux() && utility::CPU().x86_32() ){
+
+			this->engineAdd( this->getSupportingEngineByName( "quickjs-ng" ),id ) ;
+		}else{
+			this->engineAdd( this->getSupportingEngineByName( "deno" ),id ) ;
+
+		}
 	}
 
-	this->engineAdd( "",this->getSupportingEngineByName( "ffmpeg" ),id ) ;
+	this->engineAdd( this->getSupportingEngineByName( "ffmpeg" ),id ) ;
 
 	if( you_get::installed( m_enginePaths ) ){
 
-		this->engineAdd( "",this->getSupportingEngineByName( "python" ),id ) ;
+		this->engineAdd( this->getSupportingEngineByName( "python" ),id ) ;
 	}
 
 	m_backends.sort() ;
@@ -949,33 +986,9 @@ engines::engine::cmd::cmd( const QJsonObject& obj,
 {
 }
 
-QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
+QJsonObject engines::engine::getOpts( const util::Json& e,settings& ) const
 {
-	auto obj = e.toObject() ;
-
-	auto name = obj.value( "Name" ).toString() ;
-
-	if( name == "quickjs" ){
-
-		obj.insert( "SupportingEngine",true ) ;
-
-	}if( name == "deno" ){
-
-		obj.insert( "SupportingEngine",true ) ;
-
-		obj.insert( "UpdatableSupportingEngine",true ) ;
-
-		obj.insert( "AutoUpdate",s.denoEnableAutoDownload() ) ;
-
-	}else if( name == "ffmpeg" || name == "python" || name == "quickjs-ng" ){
-
-		obj.insert( "SupportingEngine",true ) ;
-
-		obj.insert( "UpdatableSupportingEngine",true ) ;
-
-	}
-
-	return obj ;
+	return e.toObject() ;
 }
 
 std::unique_ptr< engines::engine::baseEngine > engines::engine::setEngine( const engines& engines )
@@ -2744,13 +2757,6 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 	m_configFileName( m_name + ".json" ),
 	m_parent( engs )
 {
-	auto m = enginePath.enginePath( "ffmpeg.json" ) ;
-
-	if( QFile::exists( m ) ){
-
-		QFile::remove( m ) ;
-	}
-
 	yt_dlp::init( this->configFileName(),logger,enginePath ) ;
 
 	if( utility::platformIsWindows() ){
@@ -2758,48 +2764,10 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 		aria2c::init( logger,enginePath ) ;
 		wget::init( logger,enginePath ) ;
 
-		if( utility::platformIsLegacyWindows() ){
+	}else if( utility::platformisFlatPak() ){
 
-			quickjs_ng::init( logger,enginePath ) ;
-			quickjs::remove( logger,enginePath ) ;
-			deno::remove( logger,enginePath ) ;
-		}else{
-			deno::init( m_parent.m_settings,logger,enginePath ) ;
-		}
+		wget::init( logger,enginePath ) ;
 
-	}else if( utility::platformIsAppImage() || utility::platformisFlatPak() ){
-
-		if( utility::platformisFlatPak() ){
-
-			wget::init( logger,enginePath ) ;
-		}
-
-		auto name = engines::engine::jsRuntimeInstalled( m_parent ).name() ;
-
-		if( name == "deno" ){
-
-			deno::init( m_parent.m_settings,logger,enginePath ) ;
-			bun::remove( logger,enginePath ) ;
-			quickjs::remove( logger,enginePath ) ;
-			quickjs_ng::remove( logger,enginePath ) ;
-		}else{
-			quickjs_ng::init( logger,enginePath ) ;
-			quickjs::remove( logger,enginePath ) ;
-			deno::remove( logger,enginePath ) ;
-			bun::remove( logger,enginePath ) ;
-		}
-
-	}else if( utility::platformIsLinux() && utility::CPU().x86_32() ){
-
-		quickjs_ng::init( logger,enginePath ) ;
-		quickjs::remove( logger,enginePath ) ;
-		deno::remove( logger,enginePath ) ;
-		bun::remove( logger,enginePath ) ;
-	}else{
-		deno::init( m_parent.m_settings,logger,enginePath ) ;
-		quickjs_ng::remove( logger,enginePath ) ;
-		bun::remove( logger,enginePath ) ;
-		quickjs::remove( logger,enginePath ) ;
 	}
 }
 

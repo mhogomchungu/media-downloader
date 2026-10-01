@@ -70,6 +70,13 @@ utility::addJsonCmd::entry::args ffmpeg::entryCmd( const QString& e )
 
 void ffmpeg::init( QJsonObject& obj,const engines::enginePaths& enginePath )
 {
+	auto m = enginePath.enginePath( "ffmpeg.json" ) ;
+
+	if( QFile::exists( m ) ){
+
+		QFile::remove( m ) ;
+	}
+
 	obj.insert( "VersionArgument","-version" ) ;
 	obj.insert( "VersionStringLine",0 ) ;
 	obj.insert( "VersionStringPosition",2 ) ;
@@ -87,18 +94,13 @@ void ffmpeg::init( QJsonObject& obj,const engines::enginePaths& enginePath )
 
 		obj.insert( "AutoUpdate",true ) ;
 
+		obj.insert( "UpdatableSupportingEngine",true ) ;
+
 	}
 }
 
-void ffmpeg::remove( Logger&,const engines::enginePaths& enginePath )
+void ffmpeg::remove( Logger&,const engines::enginePaths& )
 {
-	auto m = enginePath.enginePath( "ffmpeg.json" ) ;
-
-	if( QFile::exists( m ) ){
-
-		QFile::remove( m ) ;
-	}
-
 }
 
 void ffmpeg::replaceVersionString( QString& m )

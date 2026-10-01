@@ -22,6 +22,7 @@
 #include <memory>
 #include <cstring>
 #include <QtGlobal>
+#include <QString>
 
 namespace utils
 {

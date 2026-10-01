@@ -821,7 +821,7 @@ std::vector<engines::engine::baseEngine::mediaInfo> getsauce::mediaProperties( L
 
 	Logger::locale locale ;
 
-	for( const auto& it : arr ){
+	for( const auto it : arr ){
 
 		auto obj = it.toObject() ;
 
@@ -846,7 +846,7 @@ std::vector<engines::engine::baseEngine::mediaInfo> getsauce::mediaProperties( L
 
 		int count = 0 ;
 
-		for( const auto& it : parts ){
+		for( const auto it : parts ){
 
 			count++ ;
 			urls.append( it.toObject().value( "url" ).toString() ) ;

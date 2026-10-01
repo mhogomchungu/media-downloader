@@ -53,16 +53,14 @@ utility::addJsonCmd::entry::args deno::entryCmd( const QString& e )
 	return data ;
 }
 
-void deno::init( settings&,Logger& logger,const engines::enginePaths& enginePath )
+void deno::init( QJsonObject& mainObj,settings& s,const engines::enginePaths& enginePath )
 {
 	auto m = enginePath.enginePath( "deno.json" ) ;
 
 	if( QFile::exists( m ) ){
 
-		return ;
+		QFile::remove( m ) ;
 	}
-
-	QJsonObject mainObj ;
 
 	utility::addJsonCmd json( mainObj ) ;
 
@@ -80,11 +78,13 @@ void deno::init( settings&,Logger& logger,const engines::enginePaths& enginePath
 
 	mainObj.insert( "DownloadUrlWin7","" ) ;
 
-	mainObj.insert( "AutoUpdate",true ) ;
+	mainObj.insert( "UpdatableSupportingEngine",true ) ;
+
+	mainObj.insert( "AutoUpdate",s.denoEnableAutoDownload() ) ;
 
 	mainObj.insert( "Name","deno" ) ;
 
-	mainObj.insert( "VersionArgument","-version" ) ;
+	mainObj.insert( "VersionArgument","--version" ) ;
 
 	mainObj.insert( "BackendPath",utility::stringConstants::defaultPath() ) ;
 
@@ -93,25 +93,10 @@ void deno::init( settings&,Logger& logger,const engines::enginePaths& enginePath
 	mainObj.insert( "VersionStringPosition",1 ) ;
 
 	mainObj.insert( "LikeYoutubeDl",false ) ;
-
-	engines::file( m,logger ).write( mainObj ) ;
 }
 
-void deno::remove( Logger&,const engines::enginePaths& enginePath )
+void deno::remove( Logger&,const engines::enginePaths& )
 {
-	auto m = enginePath.enginePath( "deno.json" ) ;
-
-	if( QFile::exists( m ) ){
-
-		QFile::remove( m ) ;
-	}
-
-	m = enginePath.binPath( "deno" ) ;
-
-	if( QFile::exists( m ) ){
-
-		QFile::remove( m ) ;
-	}
 }
 
 deno::~deno()

@@ -913,8 +913,6 @@ void configure::init_done()
 			m_updates.emplace_back( "you-get",1 ) ;
 			m_updates.emplace_back( "yt-dlp-aria2c",3 ) ;
 			m_updates.emplace_back( "yt-dlp-ffmpeg",3 ) ;
-			m_updates.emplace_back( "deno",3 ) ;
-			m_updates.emplace_back( "quickjs-ng",1 ) ;
 		}
 	private:
 		std::vector< entry > m_updates ;

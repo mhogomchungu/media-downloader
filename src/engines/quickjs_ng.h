@@ -24,7 +24,7 @@
 class quickjs_ng : public engines::engine::baseEngine
 {
 public:
-	static void init( Logger& logger,const engines::enginePaths& enginePath ) ;
+	static void init( QJsonObject&,const engines::enginePaths& enginePath ) ;
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
 	QString parseVersionInfo( const utils::qprocess::outPut& ) override ;
 

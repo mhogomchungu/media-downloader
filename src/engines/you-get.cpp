@@ -22,8 +22,6 @@
 #include "../util.hpp"
 #include "../utility.h"
 
-#include <cstring>
-
 you_get::you_get( const engines& engines,const engines::engine& engine,QJsonObject& ) :
 	engines::engine::baseEngine( engines.Settings(),engine,engines.processEnvironment() )
 {
@@ -223,9 +221,9 @@ const QByteArray& you_get::you_getFilter::operator()( Logger::Data& s )
 	}else{
 		auto m = s.toLine() ;
 
-		auto strLen = []( const char * s ){
+		auto strLen = []( utils::misc::string s ){
 
-			return static_cast< int >( std::strlen( s ) ) ;
+			return static_cast< int >( s.size() ) ;
 		} ;
 
 		if( m_title.isEmpty() ){

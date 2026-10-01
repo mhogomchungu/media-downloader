@@ -25,8 +25,9 @@ void python::init( QJsonObject& obj,const engines::enginePaths& enginePath )
 	obj.insert( "VersionArgument","--version" ) ;
 	obj.insert( "VersionStringLine",0 ) ;
 	obj.insert( "VersionStringPosition",1 ) ;
+	obj.insert( "Name","python" ) ;
 
-	if( utility::platformIsLikeWindows() ){
+	if( utility::platformIsWindows() ){
 
 		if( you_get::installed( enginePath ) ){
 
@@ -36,7 +37,7 @@ void python::init( QJsonObject& obj,const engines::enginePaths& enginePath )
 
 			if( m.exists() ){
 
-				if( m.isFile() ){
+				if( !m.isDir() ){
 
 					QFile::remove( path ) ;
 

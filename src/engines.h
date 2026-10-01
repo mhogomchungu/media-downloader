@@ -1992,6 +1992,7 @@ private:
 	engines::EnginesList::engine getSupportingEngineByName( const QString& ) const ;
 	util::result_ref< const engines::engine& > getCompleteEngineByPath( const QString& ) const ;
 	bool engineAdd( const QString&,engines::EnginesList::engine,int ) ;
+	bool engineAdd( engines::EnginesList::engine,int ) ;
 	QString findExecutable( const QString&,const QStringList&,bool searchFromBeginning = true ) const ;
 	QString findOtherExecutable( const QString& e,const QStringList& p,bool s ) const ;
 	QString findWinExecutable( const QString&,const QStringList&,bool searchFromBeginning = true ) const ;
