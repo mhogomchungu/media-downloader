@@ -29,7 +29,7 @@ QString ffmpeg::fileName()
 
 	}else if( utility::platformIsWindows7()){
 
-		return "ffmpeg-n8.1-win32-gpl-shared-win7" ;
+		return "ffmpeg-n8.1-win32-gpl-shared-win7.zip" ;
 	}else{
 		return "ffmpeg-n8.1-win32-gpl-shared.zip" ;
 	}
