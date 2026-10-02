@@ -26,6 +26,10 @@ QString ffmpeg::fileName()
 	if( utility::platformIsModernWindows() ){
 
 		return "ffmpeg-n9.0-win64-gpl-shared.zip" ;
+
+	}else if( utility::platformIsWindows7()){
+
+		return "ffmpeg-n8.1-win32-gpl-shared-win7" ;
 	}else{
 		return "ffmpeg-n8.1-win32-gpl-shared.zip" ;
 	}
@@ -177,7 +181,7 @@ void ffmpeg::checkUpdatedVersion( const engines::enginePaths& enginePath )
 
 	for( const auto& it : e ){
 
-		if( it.contains( "ffmpeg" ) && it != ffmpeg::folderName() ){
+		if( it.startsWith( "ffmpeg" ) && it != ffmpeg::folderName() ){
 
 			class meaw
 			{
