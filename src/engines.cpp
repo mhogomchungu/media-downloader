@@ -21,18 +21,14 @@
 
 #include "engines/yt-dlp.h"
 #include "engines/generic.h"
-#include "engines/safaribooks.h"
 #include "engines/gallery-dl.h"
 #include "engines/aria2c.h"
 #include "engines/python.h"
-#include "engines/lux.h"
 #include "engines/wget.h"
 #include "engines/svtplay-dl.h"
 #include "engines/you-get.h"
 #include "engines/python.h"
 #include "engines/deno.h"
-#include "engines/bun.h"
-#include "engines/quickjs.h"
 #include "engines/quickjs_ng.h"
 #include "engines/getsauce.h"
 #include "engines/ffmpeg.h"
@@ -1001,10 +997,6 @@ std::unique_ptr< engines::engine::baseEngine > engines::engine::setEngine( const
 
 		return std::make_unique< yt_dlp >( engines,engine,m_jsonObject ) ;
 
-	}else if( name.contains( "safaribooks" ) ){
-
-		return std::make_unique< safaribooks >( engines,engine,m_jsonObject ) ;
-
 	}else if( name == "python" ){
 
 		return std::make_unique< python >( engines,engine,m_jsonObject ) ;
@@ -1016,10 +1008,6 @@ std::unique_ptr< engines::engine::baseEngine > engines::engine::setEngine( const
 	}else if( name == "aria2c" ){
 
 		return std::make_unique< aria2c >( engines,engine,m_jsonObject ) ;
-
-	}else if( name.contains( "lux" ) ){
-
-		return std::make_unique< lux >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "you-get" ) ){
 
@@ -1036,14 +1024,6 @@ std::unique_ptr< engines::engine::baseEngine > engines::engine::setEngine( const
 	}else if( name.contains( "deno" ) ){
 
 		return std::make_unique< deno >( engines,engine,m_jsonObject ) ;
-
-	}else if( name.contains( "bun" ) ){
-
-		return std::make_unique< bun >( engines,engine,m_jsonObject ) ;
-
-	}else if( name == "quickjs" ){
-
-		return std::make_unique< quickjs >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "getsauce" ) ){
 
@@ -1718,6 +1698,16 @@ engines::metadata engines::engine::baseEngine::parseJsonDataFromGitHub( const QJ
 	return utility::parseJsonDataFromGitHub( doc,meaw( *this ) ) ;
 }
 
+engines::metadata engines::engine::baseEngine::parseJsonDataFromGitHub( const QByteArray& )
+{
+	return {} ;
+}
+
+bool engines::engine::baseEngine::parseJsonDataFromGitHub()
+{
+	return true ;
+}
+
 std::vector< engines::engine::baseEngine::mediaInfo > engines::engine::baseEngine::mediaProperties( Logger&,const QByteArray& e )
 {
 	auto args = util::split( e,'\n' ) ;
@@ -1766,7 +1756,7 @@ std::vector< engines::engine::baseEngine::mediaInfo > engines::engine::baseEngin
 	return {} ;
 }
 
-void engines::engine::baseEngine::updateOutPutChannel( QProcess::ProcessChannel& ) const
+void engines::engine::baseEngine::updateOutPutChannel( QProcess::ProcessChannel& )
 {
 }
 

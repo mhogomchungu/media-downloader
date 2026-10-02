@@ -477,24 +477,38 @@ void networkAccess::download( const QByteArray& data,networkAccess::Opts opts ) 
 
 	util::Json json( data ) ;
 
-	if( json ){
+	if( engine.parseJsonDataFromGitHub() ){
 
-		opts.add( engine.parseJsonDataFromGitHub( json.doc() ) ) ;
+		if( json ){
 
-		this->download( opts.move() ) ;
+			opts.add( engine.parseJsonDataFromGitHub( json.doc() ) ) ;
+
+			return this->download( opts.move() ) ;
+		}
 	}else{
-		auto m = QObject::tr( "Failed to parse json file from github" ) ;
+		auto m = engine.parseJsonDataFromGitHub( data ) ;
 
-		this->post( engine.name(),m + ": " + json.errorString(),opts.id ) ;
+		if( m.valid() ){
 
-		m_tabManager.enableAll() ;
+			opts.add( m ) ;
 
-		opts.reportFailed() ;
+			return this->download( opts.move() ) ;
+		}
 
-		engine.setBroken() ;
-
-		this->printVersion( opts.move(),false ) ;
 	}
+
+	auto m = QObject::tr( "Failed To Parse Data From: %1" ).arg( engine.downloadUrl() ) ;
+
+	this->post( engine.name(),m + ": " + json.errorString(),opts.id ) ;
+
+	m_tabManager.enableAll() ;
+
+	opts.reportFailed() ;
+
+	engine.setBroken() ;
+
+	this->printVersion( opts.move(),false ) ;
+
 }
 
 void networkAccess::download( engines::Iterator e,networkAccess::reportDone rd ) const

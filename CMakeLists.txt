@@ -105,10 +105,8 @@ set(SRC
     src/library.cpp
     src/engines/tests.cpp
     src/engines/yt-dlp.cpp
-    src/engines/safaribooks.cpp
     src/engines/generic.cpp
     src/engines/aria2c.cpp
-    src/engines/lux.cpp
     src/engines/wget.cpp
     src/engines/python.cpp
     src/engines/ffmpeg.cpp
@@ -116,10 +114,8 @@ set(SRC
     src/engines/you-get.cpp
     src/engines/getsauce.cpp
     src/engines/gallery-dl.cpp
-    src/engines/quickjs.cpp
     src/engines/quickjs_ng.cpp
-    src/engines/deno.cpp
-    src/engines/bun.cpp)
+    src/engines/deno.cpp )
 
 set(RESOURCES src/icon.qrc )
 

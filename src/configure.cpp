@@ -1239,8 +1239,6 @@ QMenu * configure::addExtenion()
 	this->addAction( m,m_ctx,"you-get","you-get.json" ) ;
 	this->addAction( m,m_ctx,"getsauce","getsauce.json" ) ;
 
-	//this->addAction( m,m_ctx,"lux","lux.json" ) ;
-
 	this->addAction( m,m_ctx,"svtplay-dl","svtplay-dl.json" ) ;
 
 	if( utility::platformIsNOTWindows() ){

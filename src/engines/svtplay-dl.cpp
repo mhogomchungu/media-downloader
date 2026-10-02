@@ -408,7 +408,7 @@ svtplay_dl::svtplay_dl( const engines& engs,const engines::engine& engine,QJsonO
 	obj.insert( "DownloadUrl","https://api.github.com/repos/spaam/svtplay-dl/tags" ) ;
 }
 
-void svtplay_dl::updateOutPutChannel( QProcess::ProcessChannel& s ) const
+void svtplay_dl::updateOutPutChannel( QProcess::ProcessChannel& s )
 {
 	s = QProcess::ProcessChannel::StandardError ;
 }

@@ -343,6 +343,10 @@ public:
 		metadata()
 		{
 		}
+		bool valid() const
+		{
+			return !m_url.isEmpty() && !m_url.isEmpty() ;
+		}
 		metadata move()
 		{
 			return std::move( *this ) ;
@@ -844,11 +848,15 @@ public:
 
 			virtual engines::metadata parseJsonDataFromGitHub( const QJsonDocument& ) ;
 
+			virtual engines::metadata parseJsonDataFromGitHub( const QByteArray& ) ;
+
+			virtual bool parseJsonDataFromGitHub() ;
+
 			virtual std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) ;
 
 			virtual std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) ;
 
-			virtual void updateOutPutChannel( QProcess::ProcessChannel& ) const ;
+			virtual void updateOutPutChannel( QProcess::ProcessChannel& ) ;
 
 			virtual bool breakShowListIfContains( const QStringList& ) ;
 
@@ -1426,6 +1434,14 @@ public:
 		engines::metadata parseJsonDataFromGitHub( const QJsonDocument& e ) const
 		{
 			return m_engine->parseJsonDataFromGitHub( e ) ;
+		}
+		engines::metadata parseJsonDataFromGitHub( const QByteArray& e ) const
+		{
+			return m_engine->parseJsonDataFromGitHub( e ) ;
+		}
+		bool parseJsonDataFromGitHub() const
+		{
+			return m_engine->parseJsonDataFromGitHub() ;
 		}
 		engines::engine::baseEngine::FilterOutPut filterOutput( int id ) const
 		{

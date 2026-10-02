@@ -22,10 +22,8 @@
 
 #include "wget.h"
 #include "yt-dlp.h"
-#include "safaribooks.h"
 #include "gallery-dl.h"
 #include "svtplay-dl.h"
-#include "lux.h"
 #include "getsauce.h"
 
 #include "../util.hpp"
@@ -80,7 +78,6 @@ public:
 	}
 private:
 	std::array< engines,10 > m_engines = { {
-		{ TEST_ENGINE_PREFIX"-safaribooks",&safaribooks::testData },
 		{ TEST_ENGINE_PREFIX"-yt-dlp",&yt_dlp::testYtDlp },
 		{ TEST_ENGINE_PREFIX"-yt-dlp-playlist",&yt_dlp::testYtDlpPlayList },
 		{ TEST_ENGINE_PREFIX"-yt-dlp-metadata",&yt_dlp::testYtDlpMetadata },
@@ -88,8 +85,7 @@ private:
 		{ TEST_ENGINE_PREFIX"-wget",&wget::testData },
 		{ TEST_ENGINE_PREFIX"-gallery-dl",&gallery_dl::testData },
 		{ TEST_ENGINE_PREFIX"-getsauce",&getsauce::testData },
-		{ TEST_ENGINE_PREFIX"-svtplay-dl",&svtplay_dl::testData },
-		{ TEST_ENGINE_PREFIX"-lux",&lux::testData } } } ;
+		{ TEST_ENGINE_PREFIX"-svtplay-dl",&svtplay_dl::testData } } } ;
 } ;
 
 class testing

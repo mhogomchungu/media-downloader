@@ -43,7 +43,6 @@ QString ffmpeg::longVersionString()
 	}else{
 		return "n8.1.0-g189d0b83b2-20250915" ;
 	}
-
 }
 
 QString ffmpeg::shortVersionString()
