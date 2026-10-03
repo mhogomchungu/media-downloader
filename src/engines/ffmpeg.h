@@ -27,6 +27,7 @@ public:
 	static void init( QJsonObject&,const engines::enginePaths& enginePath ) ;
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
 	static void replaceVersionString( QString& ) ;
+	static QString folderName() ;
 	~ffmpeg() override ;
 	QString updateCmdPath( const QString& ) override ;
 	bool foundNetworkUrl( const QString& s ) override ;
@@ -39,7 +40,6 @@ private:
 	static void checkUpdatedVersion( const engines::enginePaths& enginePath ) ;
 	static void deleteFolder( const QString& ) ;
 	static QString archiveExtension() ;
-	static QString folderName() ;
 	static QString fileName() ;
 	static QString shortVersionString() ;
 	static QString longVersionString() ;

@@ -47,6 +47,7 @@ class python : public engines::engine::baseEngine
 public:
 	static void init( QJsonObject&,const engines::enginePaths& enginePath ) ;
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
+	static QString folderName() ;
 	~python() override ;
 	QString updateCmdPath( const QString& ) override ;
 	bool foundNetworkUrl( const QString& s ) override ;
@@ -57,7 +58,6 @@ public:
 	python( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
 	static QString archiveExtension() ;
-	static QString folderName() ;
 	static QString fileName() ;
 	static void setUrl( QJsonObject& ) ;
 	static utility::addJsonCmd::entry::args entryCmd( const QString& ) ;

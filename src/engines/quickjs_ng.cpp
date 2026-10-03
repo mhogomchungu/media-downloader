@@ -86,21 +86,8 @@ void quickjs_ng::init( QJsonObject& mainObj,const engines::enginePaths& enginePa
 	mainObj.insert( "LikeYoutubeDl",false ) ;
 }
 
-void quickjs_ng::remove( Logger&,const engines::enginePaths& enginePath )
+void quickjs_ng::remove( Logger&,const engines::enginePaths& )
 {
-	auto m = enginePath.enginePath( "quickjs_ng.json" ) ;
-
-	if( QFile::exists( m ) ){
-
-		QFile::remove( m ) ;
-	}
-
-	m = enginePath.binPath( quickjs_ng::getNameAndExe().exe() ) ;
-
-	if( QFile::exists( m ) ){
-
-		QFile::remove( m ) ;
-	}
 }
 
 QString quickjs_ng::parseVersionInfo( const utils::qprocess::outPut& e )

@@ -53,6 +53,25 @@ QString engines::getEnvPaths( const QString& basePath,const QString& separator )
 {
 	auto m = basePath ;
 
+	if( utility::platformIsWindows() ){
+
+		QDir dir( basePath ) ;
+
+		auto ffmpeg = ffmpeg::folderName() ;
+
+		if( !dir.exists( ffmpeg ) ){
+
+			dir.mkdir( ffmpeg ) ;
+		}
+
+		auto python = python::folderName() ;
+
+		if( !dir.exists( python ) ){
+
+			dir.mkdir( python ) ;
+		}
+	}
+
 	const auto s = utility::dirEntries( basePath ) ;
 
 	for( const auto& it : s ){
