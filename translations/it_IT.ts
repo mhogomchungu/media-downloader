@@ -748,10 +748,6 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <translation>Velocità:</translation>
     </message>
     <message>
-        <source>This May Take A Very Long Time</source>
-        <translation>Questo potrebbe richiedere molto tempo</translation>
-    </message>
-    <message>
         <source>Newest Version Is %1, Updating</source>
         <translation>Versione disponibile %1, in aggiornamento</translation>
     </message>
@@ -1154,6 +1150,10 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     <message>
         <source>Translators: NAME_AND_DATE_EXAMPLE: John Smith(2021-2026), Tembo(2022,2025)</source>
         <translation>Traduzione: v. 04/09/2026 a cura di RB</translation>
+    </message>
+    <message>
+        <source>Failed To Parse Data From: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

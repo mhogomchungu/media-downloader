@@ -891,10 +891,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>이미 %1 은 다운로드 되었습니다</translation>
     </message>
     <message>
-        <source>This May Take A Very Long Time</source>
-        <translation>시간이 매우 오래 걸릴 수 있습니다.</translation>
-    </message>
-    <message>
         <source>Speed:</source>
         <translation>속도:</translation>
     </message>
@@ -1152,6 +1148,10 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Translators: NAME_AND_DATE_EXAMPLE: John Smith(2021-2026), Tembo(2022,2025)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Parse Data From: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

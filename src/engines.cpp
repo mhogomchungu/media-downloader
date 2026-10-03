@@ -1001,7 +1001,7 @@ std::unique_ptr< engines::engine::baseEngine > engines::engine::setEngine( const
 
 		return std::make_unique< python >( engines,engine,m_jsonObject ) ;
 
-	}else if( name.contains( "gallery-dl" ) ){
+	}else if( name == "gallery-dl" ){
 
 		return std::make_unique< gallery_dl >( engines,engine,m_jsonObject ) ;
 
@@ -1009,23 +1009,23 @@ std::unique_ptr< engines::engine::baseEngine > engines::engine::setEngine( const
 
 		return std::make_unique< aria2c >( engines,engine,m_jsonObject ) ;
 
-	}else if( name.contains( "you-get" ) ){
+	}else if( name == "you-get" ){
 
 		return std::make_unique< you_get >( engines,engine,m_jsonObject ) ;
 
-	}else if( name.contains( "svtplay-dl" ) ){
+	}else if( name == "svtplay-dl" ){
 
 		return std::make_unique< svtplay_dl >( engines,engine,m_jsonObject ) ;
 
-	}else if( name.contains( "wget" ) ){
+	}else if( name == "wget" ){
 
 		return std::make_unique< wget >( engines,engine,m_jsonObject ) ;
 
-	}else if( name.contains( "deno" ) ){
+	}else if( name == "deno" ){
 
 		return std::make_unique< deno >( engines,engine,m_jsonObject ) ;
 
-	}else if( name.contains( "getsauce" ) ){
+	}else if( name == "getsauce" ){
 
 		return std::make_unique< getsauce >( engines,engine,m_jsonObject ) ;
 
