@@ -112,7 +112,7 @@ QProcessEnvironment engines::getEnvPaths() const
 
 	auto path = bundledPath + separator + sysPath + separator + binPath ;
 
-	env.insert( "PATH",path ) ;
+	env.insert( "PATH",util::split( path,separator ).join( separator ) ) ;
 
 	env.insert( "LANG","C" ) ;
 
@@ -623,30 +623,17 @@ QString engines::findExecutable( const QString& exeName,const QStringList& paths
 		}
 	}
 
-	class filter
-	{
-	public:
-		filter()
-		{
-		}
-		bool operator()( const QString& path,const QString& ) const
-		{
-			if( path.contains( "WindowsApps" ) ){
-
-				return true ;
-			}else{
-				return false ;
-			}
-		}
-	private:
-	} ;
-
 	if( fromBeginning ){
 
-		return this->findExecutable( utility::forwardIterator( paths ),filter(),exeName,info ) ;
+		return this->findExecutable( utility::forwardIterator( paths ),exeName,info ) ;
 	}else{
-		return this->findExecutable( utility::reverseIterator( paths ),filter(),exeName,info ) ;
+		return this->findExecutable( utility::reverseIterator( paths ),exeName,info ) ;
 	}
+}
+
+bool engines::filter( const QString& path,const QString& ) const
+{
+	return path.contains( "WindowsApps" ) ;
 }
 
 QString engines::findOtherExecutable( const QString& e,const QStringList& p,bool s ) const

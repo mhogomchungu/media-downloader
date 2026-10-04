@@ -2014,6 +2014,7 @@ private:
 	QString findWinExecutable( const QString&,const QStringList&,bool searchFromBeginning = true ) const ;
 	QProcessEnvironment getEnvPaths() const ;
 	QString getEnvPaths( const QString& basePath,const QString& ) const ;
+	bool filter( const QString&,const QString&  ) const ;
 	Logger& m_logger ;
 	settings& m_settings ;
 	engines::EnginesList m_backends ;
@@ -2021,14 +2022,14 @@ private:
 	QProcessEnvironment m_processEnvironment ;
 	engines::proxySettings m_networkProxy ;
 	int m_bannerId ;
-	template< typename Iter,typename Filter >
-	QString findExecutable( Iter iter,Filter filter,const QString& exeName,QFileInfo& info ) const
+	template< typename Iter >
+	QString findExecutable( Iter iter,const QString& exeName,QFileInfo& info ) const
 	{
 		while( iter.hasNext() ){
 
 			const auto& path = iter.next() ;
 
-			if( !filter( path,exeName ) ){
+			if( !this->filter( path,exeName ) ){
 
 				auto m = path + "/" + exeName ;
 
