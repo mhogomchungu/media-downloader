@@ -74,8 +74,11 @@ int main( int argc,char * argv[] )
 
 		std::cout << deno.readAllStandardOutput().data() ;
 	}else{
-		std::cerr << deno.readAllStandardError().data() ;
+		auto m = deno.readAllStandardError() ;
 
+		auto s = "Failed getting cwd: No such file or directory (os error 2)" ;
+
+		std::cerr << m.replace( s,"" ).trimmed().data() ;
 	}
 
 	return m ;
