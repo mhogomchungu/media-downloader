@@ -51,10 +51,6 @@ else()
     endif()
 endif()
 
-if(BUILD_FLATPAK)
-else()
-endif()
-
 include_directories(${PROJECT_BINARY_DIR})
 
 # uninstall target
@@ -160,6 +156,11 @@ endif()
 if(APPLE)
 else()
     if(BUILD_FLATPAK)
+
+        add_executable(deno_md src/deno_md.cpp)
+        target_link_libraries(deno_md Qt6::Core)
+        install(TARGETS deno_md RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
         set_target_properties( media-downloader PROPERTIES OUTPUT_NAME io.github.mhogomchungu.media-downloader)
         install(TARGETS media-downloader RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
         install(FILES src/flatpak/io.github.mhogomchungu.media-downloader.metainfo.xml DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/metainfo)

@@ -865,31 +865,6 @@ void engines::engine::setJsRuntime()
 
 				m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
 			}
-
-		}else if( utility::platformisFlatPak() || utility::platformIsAppImage() ){
-
-			if( m_parent.m_settings.flatpackUseDenoRuntime() ){
-
-				engines::engine::jsRuntimeInstalled js( m_parent,"deno" ) ;
-
-				if( js.valid() ){
-
-					m_extraArguments.append( "--no-js-runtimes" ) ;
-					m_extraArguments.append( "--js-runtimes" ) ;
-
-					m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
-				}
-			}else{
-				engines::engine::jsRuntimeInstalled js( m_parent ) ;
-
-				if( js.valid() ){
-
-					m_extraArguments.append( "--no-js-runtimes" ) ;
-					m_extraArguments.append( "--js-runtimes" ) ;
-
-					m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
-				}
-			}
 		}else{
 			engines::engine::jsRuntimeInstalled js( m_parent ) ;
 
@@ -2899,22 +2874,24 @@ QProcessEnvironment engines::engine::baseEngine::optionsEnvironment::update( con
 
 engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e )
 {
-	auto m = quickjs_ng::getNameAndExe() ;
+	if( utility::platformisFlatPak() ){
 
-	std::array< entry,3 > list = { { { "deno" },{ m.name(),m.exe() },{ "quickjs","qjs" } } } ;
+		std::array< entry,1 > list = { { { "deno","deno_md" } } } ;
 
-	this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
+		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
+	}else{
+		auto m = quickjs_ng::getNameAndExe() ;
+
+		std::array< entry,2 > list = { { { "deno" },{ m.name(),m.exe() } } } ;
+
+		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
+	}
+
 }
 
 engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e,const utils::misc::string& s )
 {
-	if( s == "quickjs" ){
-
-		std::array< entry,1 > list = { { { "quickjs","qjs" } } } ;
-
-		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
-
-	}else if( s == "quickjs-ng" ){
+	if( s == "quickjs-ng" ){
 
 		auto m = quickjs_ng::getNameAndExe() ;
 
@@ -2922,7 +2899,7 @@ engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e,const 
 
 		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
 	}else{
-		std::array< entry,1 > list =  { { s } } ;
+		std::array< entry,1 > list = { { s } } ;
 
 		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
 	}

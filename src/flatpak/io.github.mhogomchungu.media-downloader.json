@@ -6789,9 +6789,7 @@
       "cleanup" : [
         "/bin/normalizer",
         "/bin/tqpm",
-        "/bin/svtplay-dl",
-        "/lib/python3.13/site-packages/svtplay_dl",
-        "/lib/python3.13/site-packages/svtplay_dl-4.179.dist-info"
+        "/bin/svtplay-dl"
       ],
       "sources" : [
         {

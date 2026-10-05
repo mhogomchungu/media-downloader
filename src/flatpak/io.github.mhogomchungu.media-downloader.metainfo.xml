@@ -62,7 +62,16 @@
 		<category>Qt</category>
 	</categories>
 		<releases>
-		<release version="5.6.6" type="stable" date="2026-11-09">
+		<release version="5.6.7" type="stable" date="2026-10-05">
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.6.7/media-downloader-5.6.7.tar.xz</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Use deno instead of quickjs-ng as yt-dlp javascript runtime.</li>
+				</ul>
+			</description>
+		</release>
+		<release version="5.6.6" type="stable" date="2026-09-11">
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.6.6/media-downloader-5.6.6.tar.xz</url>
 			<description>
 				<p>Changelog</p>
