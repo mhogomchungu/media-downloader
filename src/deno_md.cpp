@@ -28,6 +28,7 @@
  */
 
 #include <iostream>
+#include <QFile>
 #include <QCoreApplication>
 #include <QStringList>
 #include <QString>
@@ -45,6 +46,19 @@ static QString denoPath()
 	}else{
 		return s.first() + "/media-downloader/bin/deno" ;
 	}
+}
+
+static QByteArray stdinData()
+{
+	QFile file ;
+
+	if( file.open( stdin,QIODevice::ReadOnly ) ){
+
+		return file.readAll() ;
+	}else{
+		return {} ;
+	}
+
 }
 
 int main( int argc,char * argv[] )
@@ -65,6 +79,12 @@ int main( int argc,char * argv[] )
 	QProcess deno ;
 
 	deno.start( exe,args ) ;
+
+	deno.waitForStarted() ;
+
+	deno.write( stdinData() ) ;
+
+	deno.closeWriteChannel() ;
 
 	deno.waitForFinished() ;
 
