@@ -61,6 +61,42 @@ private:
 	signals:
 	void processEventSignal( const QByteArray& ) ;
 private:
+	auto showTrayCounter()
+	{
+		class meaw
+		{
+		public:
+			meaw( MainWindow& parent ) : m_parent( parent )
+			{
+			}
+			bool operator()( int counter )
+			{
+				if( QSystemTrayIcon::isSystemTrayAvailable() ){
+
+					m_parent.m_trayIcon.show() ;
+
+					return true ;
+				}else{
+					if( counter == 5 ){
+						/*
+						 * We have waited for system tray to become
+						 * available and we can wait no longer, display
+						 * it and hope for the best.
+						 */
+						m_parent.m_trayIcon.show() ;
+
+						return true ;
+					}else{
+						return false ;
+					}
+				}
+			}
+		private:
+			MainWindow& m_parent ;
+		} ;
+
+		return meaw( *this ) ;
+	}
 	void processEventSlot( const QByteArray& ) ;
 
 	static void signalHandler( int ) ;

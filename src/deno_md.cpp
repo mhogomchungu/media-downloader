@@ -58,7 +58,6 @@ static QByteArray stdinData()
 	}else{
 		return {} ;
 	}
-
 }
 
 int main( int argc,char * argv[] )

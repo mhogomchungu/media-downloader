@@ -57,19 +57,16 @@ MainWindow::MainWindow( QApplication& app,
 
 	this->window()->setWindowIcon( m_trayIcon.icon() ) ;
 
-	m_trayIcon.setContextMenu( [ this,&t ](){
+	auto m = new QMenu( this ) ;
 
-		auto m = new QMenu( this ) ;
+	auto ac = t.addAction( m,{ tr( "Quit" ),"Quit","Quit" },true ) ;
 
-		auto ac = t.addAction( m,{ tr( "Quit" ),"Quit","Quit" },true ) ;
+	connect( ac,&QAction::triggered,[ this ](){
 
-		connect( ac,&QAction::triggered,[ this ](){
+		this->quitApp() ;
+	} ) ;
 
-			this->quitApp() ;
-		} ) ;
-
-		return m ;
-	}() ) ;
+	m_trayIcon.setContextMenu( m ) ;
 
 	auto qe = Qt::QueuedConnection ;
 
@@ -91,29 +88,7 @@ MainWindow::MainWindow( QApplication& app,
 
 			m_trayIcon.show() ;
 		}else{
-			util::Timer( 1000,[ this ]( int counter ){
-
-				if( QSystemTrayIcon::isSystemTrayAvailable() ){
-
-					m_trayIcon.show() ;
-
-					return true ;
-				}else{
-					if( counter == 5 ){
-
-						/*
-						 * We have waited for system tray to become
-						 * available and we can wait no longer, display
-						 * it and hope for the best.
-						 */
-						m_trayIcon.show() ;
-
-						return true ;
-					}else{
-						return false ;
-					}
-				}
-			} ) ;
+			util::Timer( 1000,this->showTrayCounter() ) ;
 		}
 
 		m_trayIcon.show() ;
