@@ -28,6 +28,7 @@ public:
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
 	~deno() override ;
 	bool foundNetworkUrl( const QString& s ) override ;
+	void updateVersionString( QString& ) override ;
 	QString urlFileName( const QString& ) override ;
 	bool autoUpdate( const engines::engine::baseEngine::onlineVersion&,const util::version& ) override ;
 	deno( const engines&,const engines::engine&,QJsonObject& ) ;

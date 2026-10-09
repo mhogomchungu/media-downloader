@@ -115,6 +115,17 @@ bool deno::foundNetworkUrl( const QString& s )
 	}
 }
 
+void deno::updateVersionString( QString& m )
+{
+	if( m == "2.7.0+fb4db33" ){
+
+		//Deno 2.7.0 has a bad version string
+
+		m = "2.7.0" ;
+
+	}
+}
+
 QString deno::urlFileName( const QString& )
 {
 	utility::CPU cpu ;

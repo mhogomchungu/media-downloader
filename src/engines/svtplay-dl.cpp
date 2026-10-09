@@ -408,6 +408,15 @@ svtplay_dl::svtplay_dl( const engines& engs,const engines::engine& engine,QJsonO
 	obj.insert( "DownloadUrl","https://api.github.com/repos/spaam/svtplay-dl/tags" ) ;
 }
 
+void svtplay_dl::updateVersionString( QString& m )
+{
+	if( m == "0+untagged.1.g8a26635" ){
+
+		//we are using a git version of svtplay-dl
+		m = "4.173" ;
+	}
+}
+
 void svtplay_dl::updateOutPutChannel( QProcess::ProcessChannel& s )
 {
 	s = QProcess::ProcessChannel::StandardError ;

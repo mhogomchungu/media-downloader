@@ -106,7 +106,7 @@ void ffmpeg::remove( Logger&,const engines::enginePaths& )
 {
 }
 
-void ffmpeg::replaceVersionString( QString& m )
+void ffmpeg::updateVersionString( QString& m )
 {
 	if( m == ffmpeg::longVersionString() || m == "N-121066-g189d0b83b2-20250915" ){
 

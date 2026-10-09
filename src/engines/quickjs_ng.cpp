@@ -46,7 +46,7 @@ utility::addJsonCmd::entry::args quickjs_ng::entryCmd( const QString& e )
 
 void quickjs_ng::init( QJsonObject& mainObj,const engines::enginePaths& enginePath )
 {
-	auto m = enginePath.enginePath( "quickjs_ng.json.json" ) ;
+	auto m = enginePath.enginePath( "quickjs_ng.json" ) ;
 
 	if( QFile::exists( m ) ){
 

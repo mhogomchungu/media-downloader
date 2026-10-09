@@ -49,6 +49,8 @@ public:
 
 	engines::engine::baseEngine::FilterOutPut filterOutput( int ) override ;
 
+	void updateVersionString( QString& ) override ;
+
 	QString updateCmdPath( const QString& ) override ;
 
 	engines::engine::baseEngine::onlineVersion versionInfoFromGithub( const QByteArray& e ) override ;

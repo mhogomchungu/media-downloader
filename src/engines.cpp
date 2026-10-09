@@ -506,16 +506,9 @@ void engines::updateEngines( int id )
 	}else{
 		this->engineAdd( this->getSupportingEngineByName( "tar" ),id ) ;
 
-		if( utility::platformIsAppImage() || utility::platformisFlatPak() ){
+		if( utility::platformisFlatPak() ){
 
-			auto name = engines::engine::jsRuntimeInstalled( *this ).name() ;
-
-			if( name == "deno" ){
-
-				this->engineAdd( this->getSupportingEngineByName( "deno" ),id ) ;
-			}else{
-				this->engineAdd( this->getSupportingEngineByName( "quickjs-ng" ),id ) ;
-			}
+			this->engineAdd( this->getSupportingEngineByName( "deno" ),id ) ;
 
 		}else if( utility::platformIsLinux() && utility::CPU().x86_32() ){
 
@@ -1314,19 +1307,7 @@ QString engines::engine::versionString( const QString& data ) const
 
 			m.replace( ",","" ).replace( "v","" ) ;
 
-			if( m == "2.7.0+fb4db33" ){
-
-				//Deno 2.7.0 has a bad version string
-
-				m = "2.7.0" ;
-
-			}else if( m == "0+untagged.1.g8a26635" ){
-
-				//we are using a git version of svtplay-dl
-				m = "4.173" ;
-			}
-
-			ffmpeg::replaceVersionString( m ) ;
+			this->updateVersionString( m ) ;
 
 			return m ;
 		}
@@ -1338,10 +1319,9 @@ QString engines::engine::versionString( const QString& data ) const
 bool engines::engine::validDownloadUrl() const
 {
 	auto a = "https://api.github.com" ;
-	auto b = "https://bellard.org/quickjs/binary_releases" ;
-	auto c = "https://codeberg.org" ;
+	auto b = "https://codeberg.org" ;
 
-	return utils::misc::startsWithAny( m_downloadUrl,a,b,c ) ;
+	return utils::misc::startsWithAny( m_downloadUrl,a,b ) ;
 }
 
 void engines::engine::setPermissions( const QString& e ) const
@@ -1754,6 +1734,10 @@ bool engines::engine::baseEngine::supportsShowingComments()
 bool engines::engine::baseEngine::updateVersionInfo()
 {
 	return false ;
+}
+
+void engines::engine::baseEngine::updateVersionString( QString& )
+{
 }
 
 bool engines::engine::baseEngine::autoUpdate( const engines::engine::baseEngine::onlineVersion&,

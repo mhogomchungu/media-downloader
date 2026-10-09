@@ -864,6 +864,8 @@ public:
 
 			virtual bool updateVersionInfo() ;
 
+			virtual void updateVersionString( QString& ) ;
+
 			virtual QByteArray parseError( const QByteArray& ) ;
 
 			virtual void setTextEncondig( const QString&,QStringList& opts ) ;
@@ -1514,6 +1516,10 @@ public:
 		QByteArray parseError( const QByteArray& e ) const
 		{
 			return m_engine->parseError( e ) ;
+		}
+		void updateVersionString( QString& e ) const
+		{
+			return m_engine->updateVersionString( e ) ;
 		}
 		void updateOutPutChannel( QProcess::ProcessChannel& s ) const
 		{
