@@ -153,20 +153,14 @@ ffmpeg::renameArchiveFolder( const QString& archivePath,const QString& binPath )
 	auto oldPath = binPath + "/" + QFileInfo( archivePath ).fileName().replace( m,"" ) ;
 	auto newPath = binPath + "/" + this->folderName() ;
 
-	if( oldPath == newPath ){
+	QString s ;
 
-		return {} ;
-	}else{
-		auto s = utility::rename( oldPath,newPath ) ;
+	if( oldPath != newPath ){
 
-		if( s.isEmpty() ){
-
-			return {} ;
-		}else{
-			return { oldPath,newPath,s } ;
-		}
+		s = utility::rename( oldPath,newPath ) ;
 	}
 
+	return { oldPath,newPath,s } ;
 }
 
 ffmpeg::ffmpeg( const engines& e,const engines::engine& s,QJsonObject& ) :

@@ -582,6 +582,7 @@ namespace utility
 		const QStringList& arguments() const ;
 		static bool useFakeMdHash() ;
 		static bool debug() ;
+		static void setDebug( bool ) ;
 	private:
 		QStringList m_args ;
 	} ;
@@ -1151,6 +1152,48 @@ namespace utility
 		int m_index ;
 		int m_total ;
 	} ;
+
+	void debugFileSystemAction( const QString& command,const QString& src,const QString& dst,const QString& result ) ;
+
+	template< typename Action >
+	void fileSystemAction( Action ac )
+	{
+		class meaw
+		{
+			public:
+			meaw( Action ac ) : m_ac( std::move( ac ) )
+			{
+			}
+			QString bg()
+			{
+				QString m ;
+
+				for( int i = 0 ; i < 5 ; i++ ){
+
+					m = m_ac.bg() ;
+
+					utility::debugFileSystemAction( m_ac.command(),m_ac.src(),m_ac.dst(),m ) ;
+
+					if( m.isEmpty() ){
+
+						break ;
+					}else{
+						QThread::currentThread()->sleep( 1 ) ;
+					}
+				}
+
+				return m ;
+			}
+			void fg( QString s )
+			{
+				m_ac.fg( std::move( s ) ) ;
+			}
+		private:
+			Action m_ac ;
+		} ;
+
+		utils::qthread::run( meaw( std::move( ac ) ) ) ;
+	}
 
 	struct updateOptionsStruct
 	{

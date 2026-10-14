@@ -23,7 +23,6 @@
 #include "tabmanager.h"
 #include "basicdownloader.h"
 #include "settings.h"
-#include "utils/threads.hpp"
 #include "context.hpp"
 
 #include <QFile>
@@ -286,46 +285,112 @@ void networkAccess::updateMediaDownloader( networkAccess::updateMDOptions md ) c
 	}
 }
 
-void networkAccess::emDownloader( networkAccess::updateMDOptions md,const utils::qprocess::outPut& s ) const
+void networkAccess::emDownloader1( networkAccess::updateMDOptions md,const utils::qprocess::outPut& s ) const
 {
-	auto mm = utility::removeFile( md.tmpFile ) ;
-
-	if( !mm.isEmpty() ){
-
-		this->failedToRemove( m_appName,md.tmpFile,mm,md.id ) ;
-	}
-
 	if( s.success() ){
 
-		auto mm = md.name ;
+		class meaw
+		{
+		public:
+			meaw( networkAccess::updateMDOptions m,const networkAccess& n ) :
+				m_md( m.move() ),m_parent( n )
+			{
+				auto mm = m_md.name ;
 
-		auto extractedPath = md.tmpPath + "/" + mm.mid( 0,mm.size() - 4 ) ;
+				m_extractedPath = m_md.tmpPath + "/" + mm.mid( 0,mm.size() - 4 ) ;
+			}
+			QString command()
+			{
+				return "Rename" ;
+			}
+			QString bg()
+			{
+				return utility::rename( m_extractedPath,m_md.finalPath ) ;
+			}
+			const QString& src()
+			{
+				return m_extractedPath ;
+			}
+			const QString& dst()
+			{
+				return m_md.finalPath ;
+			}
+			void fg( const QString& e )
+			{
+				if( e.isEmpty() ){
 
-		auto e = utility::rename( extractedPath,md.finalPath ) ;
+					QFile f( m_md.finalPath + "/media-downloader.exe" ) ;
 
-		if( e.isEmpty() ){
+					f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
 
-			QFile f( md.finalPath + "/media-downloader.exe" ) ;
+					QDir().rmdir( m_md.finalPath + "/local" ) ;
 
-			f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+					m_md.status.done() ;
 
-			QDir().rmdir( md.finalPath + "/local" ) ;
+					auto m = QObject::tr( "Update Complete, Restart To Use New Version" ) ;
 
-			md.status.done() ;
+					m_parent.post( m_parent.m_appName,m,m_md.id ) ;
+				}else{
+					m_md.status.done() ;
 
-			auto m = QObject::tr( "Update Complete, Restart To Use New Version" ) ;
+					m_parent.failedToRename( m_md.name,m_extractedPath,m_md.finalPath,e,m_md.id ) ;
+				}
+			}
+		private:
+			networkAccess::updateMDOptions m_md ;
+			const networkAccess& m_parent ;
+			QString m_extractedPath ;
+		} ;
 
-			this->post( m_appName,m,md.id ) ;
-		}else{
-			md.status.done() ;
-
-			this->failedToRename( md.name,extractedPath,md.finalPath,e,md.id ) ;
-		}
+		utility::fileSystemAction( meaw( md.move(),*this ) ) ;
 	}else{
 		md.status.done() ;
 
 		this->failedToExtract( md.exeArgs,s,md.id ) ;
 	}
+}
+
+void networkAccess::emDownloader( networkAccess::updateMDOptions md,const utils::qprocess::outPut& s ) const
+{
+	class meaw
+	{
+	public:
+		meaw( networkAccess::updateMDOptions m,const utils::qprocess::outPut& s,const networkAccess& n ) :
+			m_md( m.move() ),m_outPut( s ),m_parent( n )
+		{
+		}
+		QString bg()
+		{
+			return utility::removeFile( m_md.tmpFile ) ;
+		}
+		QString command()
+		{
+			return "Remove File" ;
+		}
+		const QString& src()
+		{
+			return m_md.tmpFile ;
+		}
+		QString dst()
+		{
+			return {} ;
+		}
+		void fg( const QString& mm )
+		{
+			if( !mm.isEmpty() ){
+
+				m_parent.failedToRemove( m_parent.m_appName,m_md.tmpFile,mm,m_md.id ) ;
+			}
+
+			m_parent.emDownloader1( m_md.move(),m_outPut ) ;
+		}
+	private:
+		networkAccess::updateMDOptions m_md ;
+		utils::qprocess::outPut m_outPut ;
+		const networkAccess& m_parent ;
+	} ;
+
+	utility::fileSystemAction( meaw( md.move(),s,*this ) ) ;
 }
 
 void networkAccess::failedToExtract( const networkAccess::cmdArgs& e,
@@ -398,15 +463,27 @@ void networkAccess::extractMediaDownloader( networkAccess::updateMDOptions md ) 
 			m_parent( na ),m_md( md.move() )
 		{
 		}
-		void bg()
+		QString bg()
 		{
-			m_err = utility::removeFolder( m_md.finalPath ) ;
+			return utility::removeFolder( m_md.finalPath ) ;
 		}
-		void fg()
+		QString command()
 		{
-			if( !m_err.isEmpty() ){
+			return "Remove Folder" ;
+		}
+		const QString& src()
+		{
+			return m_md.finalPath ;
+		}
+		QString dst()
+		{
+			return {} ;
+		}
+		void fg( const QString& err )
+		{
+			if( !err.isEmpty() ){
 
-				m_parent.failedToRemove( m_parent.m_appName,m_md.finalPath,m_err,m_md.id ) ;
+				m_parent.failedToRemove( m_parent.m_appName,m_md.finalPath,err,m_md.id ) ;
 			}
 
 			auto exe = m_parent.m_ctx.Engines().findExecutable( "bsdtar.exe" ) ;
@@ -420,12 +497,11 @@ void networkAccess::extractMediaDownloader( networkAccess::updateMDOptions md ) 
 			utils::qprocess::run( exe,args,m,m_md.move(),&m_parent,&networkAccess::emDownloader ) ;
 		}
 	private:
-		QString m_err ;
 		const networkAccess& m_parent ;
 		networkAccess::updateMDOptions m_md ;
 	} ;
 
-	utils::qthread::run( meaw( *this,md.move() ) ) ;
+	utility::fileSystemAction( meaw( *this,md.move() ) ) ;
 }
 
 QNetworkRequest networkAccess::networkRequest( const QString& url,const QByteArray& userAgent,const QByteArray& referer ) const
@@ -759,30 +835,71 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 
 		if( engine.archiveContainsFolder() ){
 
-			auto m = engine.renameArchiveFolder( opts.filePath,opts.tempPath ) ;
+			class meaw
+			{
+			public:
+				meaw( networkAccess::Opts opts,const networkAccess& parent ) :
+					m_opts( opts.move() ),
+					m_engine( m_opts.engine() ),
+					m_parent( parent )
+				{
+				}
+				QString command()
+				{
+					return "Rename Archive Folder" ;
+				}
+				const QString& src()
+				{
+					return m_status.src() ;
+				}
+				const QString& dst()
+				{
+					return m_status.dst() ;
+				}
+				QString bg()
+				{
+					m_status = m_engine.renameArchiveFolder( m_opts.filePath,m_opts.tempPath ) ;
 
-			if( m.success() ){
+					if( m_status.success() ){
 
-				auto exe = engine.updateCmdPath( m_ctx.logger(),opts.tempPath ) ;
+						return {} ;
+					}else{
+						return "nnngrr!!" ;
+					}
+				}
+				void fg( const QString& )
+				{
+					if( m_status.success() ){
 
-				QFile f( exe ) ;
+						auto exe = m_engine.updateCmdPath( m_parent.m_ctx.logger(),m_opts.tempPath ) ;
 
-				f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
-			}else{
-				this->failedToRename( engine.name(),m.src(),m.dst(),m.err(),opts.id ) ;
+						QFile f( exe ) ;
 
-				engine.setBroken() ;
-				this->printVersion( opts.move(),true ) ;
+						f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+					}else{
+						m_parent.failedToRename( m_engine.name(),m_status.src(),m_status.dst(),m_status.err(),m_opts.id ) ;
 
-				return ;
-			}
+						m_engine.setBroken() ;
+
+					}
+
+					m_parent.printVersion( m_opts.move(),true ) ;
+				}
+			private:
+				networkAccess::Opts m_opts ;
+				const engines::engine& m_engine ;
+				const networkAccess& m_parent ;
+				engines::engine::baseEngine::renameArchiveFolderStatus m_status ;
+			} ;
+
+			utility::fileSystemAction( meaw( opts.move(),*this ) ) ;
 		}else{
 			QFile f( opts.exeBinPath ) ;
 
 			f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
-		}
 
-		this->printVersion( opts.move(),true ) ;
+			this->printVersion( opts.move(),true ) ;
+		}		
 	}else{		
 		this->failedToExtract( opts.exeArgs,s,opts.id ) ;
 
@@ -826,32 +943,9 @@ void networkAccess::hashDoNotMatch( const QString& hash1,const QString& hash2,in
 	this->post( m_appName,utility::barLine(),id ) ;
 }
 
-void networkAccess::extractArchive( networkAccess::Opts opts ) const
+void networkAccess::extractArchive1( networkAccess::Opts opts ) const
 {
 	const engines::engine& engine = opts.engine() ;
-
-	auto mm = QObject::tr( "Extracting archive: " ) + opts.filePath ;
-
-	this->post( engine.name(),mm,opts.id ) ;
-
-	if( engine.archiveContainsFolder() ){
-
-		auto m = engine.deleteEngineBinFolder( opts.tempPath ) ;
-
-		if( !m.isEmpty() ){
-
-			m = QObject::tr( "Trouble Ahead, Failed To Delete Folder: %1" ).arg( m ) ;
-
-			this->post( engine.name(),m,opts.id ) ;
-		}
-	}else{
-		auto m = engine.removeFiles( { opts.exeBinPath },QFileInfo( opts.exeBinPath ).absolutePath() ) ;
-
-		if( m.size() ){
-
-			this->failedToRemove( engine.name(),m,opts.id ) ;
-		}
-	}
 
 	QStringList extractorArgs ;
 	QString extractorExe ;
@@ -901,6 +995,69 @@ void networkAccess::extractArchive( networkAccess::Opts opts ) const
 		opts.exeArgs = { exe,args } ;
 
 		utils::qprocess::run( exe,args,opts.move(),this,&networkAccess::extractArchiveOuput ) ;
+	}
+}
+
+void networkAccess::extractArchive( networkAccess::Opts opts ) const
+{
+	const engines::engine& engine = opts.engine() ;
+
+	auto mm = QObject::tr( "Extracting archive: " ) + opts.filePath ;
+
+	this->post( engine.name(),mm,opts.id ) ;
+
+	if( engine.archiveContainsFolder() ){
+
+		class meaw
+		{
+		public:
+			meaw( networkAccess::Opts opts,const networkAccess& n ) :
+				m_opts( opts.move() ),
+				m_parent( n )
+			{
+			}
+			QString command()
+			{
+				return "Delete Engine Bin Folder" ;
+			}
+			const QString& src()
+			{
+				return m_opts.tempPath ;
+			}
+			QString dst()
+			{
+				return {} ;
+			}
+			QString bg()
+			{
+				return m_opts.engine().deleteEngineBinFolder( m_opts.tempPath ) ;
+			}
+			void fg( const QString& m )
+			{
+				if( !m.isEmpty() ){
+
+					auto s = QObject::tr( "Trouble Ahead, Failed To Delete Folder: %1" ).arg( m ) ;
+
+					m_parent.post( m_opts.engine().name(),s,m_opts.id ) ;
+				}
+
+				m_parent.extractArchive1( m_opts.move() ) ;
+			}
+		private:
+			networkAccess::Opts m_opts ;
+			const networkAccess& m_parent ;
+		} ;
+
+		utility::fileSystemAction( meaw( opts.move(),*this ) ) ;
+	}else{
+		auto m = engine.removeFiles( { opts.exeBinPath },QFileInfo( opts.exeBinPath ).absolutePath() ) ;
+
+		if( m.size() ){
+
+			this->failedToRemove( engine.name(),m,opts.id ) ;
+		}
+
+		this->extractArchive1( opts.move() ) ;
 	}
 }
 

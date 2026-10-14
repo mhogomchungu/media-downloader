@@ -60,14 +60,14 @@ you_get::renameArchiveFolder( const QString& archivePath,const QString& binPath 
 	auto oldPath = binPath + "/" + QFileInfo( archivePath ).fileName().replace( m,"" ) ;
 	auto newPath = binPath + "/" + name ;
 
-	auto s = utility::rename( oldPath,newPath ) ;
+	QString s ;
 
-	if( s.isEmpty() ){
+	if( oldPath != newPath ){
 
-		return {} ;
-	}else{
-		return { oldPath,newPath,s } ;
+		s = utility::rename( oldPath,newPath ) ;
 	}
+
+	return { oldPath,newPath,s } ;
 }
 
 std::vector<engines::engine::baseEngine::mediaInfo> you_get::mediaProperties( Logger& l,const QByteArray& e )

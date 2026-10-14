@@ -266,6 +266,25 @@ static QStringList listOptionsFromDownloadOptions( const QString& e )
 
 }
 
+void utility::debugFileSystemAction( const QString& command,
+				     const QString& src,
+				     const QString& dst,
+				     const QString& result )
+{
+	if( utility::cliArguments::debug() && !result.isEmpty() ){
+
+		qDebug() << command ;
+		qDebug() << "src: " + src ;
+
+		if( !dst.isEmpty() ){
+
+			qDebug() << "dst: " + dst ;
+		}
+
+		qDebug() << result ;
+	}
+}
+
 QStringList utility::dirEntries( const QString& e )
 {
 	auto filters = QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
@@ -1710,6 +1729,11 @@ bool utility::cliArguments::debug()
 	return utility::local::cliArguments_debug ;
 }
 
+void utility::cliArguments::setDebug( bool s )
+{
+	utility::local::cliArguments_debug = s ;
+}
+
 utility::cliArguments::cliArguments( int argc,char ** argv )
 {
 	for( int i = 0 ; i < argc ; i++ ){
@@ -1724,7 +1748,7 @@ utility::cliArguments::cliArguments( int argc,char ** argv )
 
 	if( m_args.contains( "--qDebug" ) || m_args.contains( "--qdebug" ) || m_args.contains( "--debug" ) ){
 
-		utility::local::cliArguments_debug = true ;
+		utility::cliArguments::setDebug( true ) ;
 	}else{
 		utility::local::cliArguments_debug = false ;
 	}

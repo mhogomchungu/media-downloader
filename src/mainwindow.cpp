@@ -57,6 +57,19 @@ MainWindow::MainWindow( QApplication& app,
 
 	this->window()->setWindowIcon( m_trayIcon.icon() ) ;
 
+	auto modifier = static_cast< Qt::Key >( Qt::CTRL ) ;
+
+	auto debugAction = new QAction( this ) ;
+
+	debugAction->setShortcut( { modifier + Qt::Key_D } ) ;
+
+	connect( debugAction,&QAction::triggered,[](){
+
+		utility::cliArguments::setDebug( true ) ;
+	} ) ;
+
+	this->addAction( debugAction ) ;
+
 	auto m = new QMenu( this ) ;
 
 	auto ac = t.addAction( m,{ tr( "Quit" ),"Quit","Quit" },true ) ;

@@ -580,6 +580,7 @@ private:
 	void updateMediaDownloader( networkAccess::updateMDOptions ) const ;
 	void extractMediaDownloader( networkAccess::updateMDOptions ) const ;
 
+	void emDownloader1( networkAccess::updateMDOptions,const utils::qprocess::outPut& ) const ;
 	void emDownloader( networkAccess::updateMDOptions,const utils::qprocess::outPut& ) const ;
 	void extractArchiveOuput( networkAccess::Opts,const utils::qprocess::outPut& ) const ;
 
@@ -593,6 +594,8 @@ private:
 	QString timeOutErrorString() const ;
 
 	QNetworkRequest networkRequest( const QString& url,const QByteArray& userAgent = {},const QByteArray& referer = {} ) const ;
+
+	void extractArchive1( networkAccess::Opts ) const ;
 
 	void extractArchive( networkAccess::Opts ) const ;
 
