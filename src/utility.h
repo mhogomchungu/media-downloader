@@ -1181,30 +1181,30 @@ namespace utility
 	template< typename Action >
 	void fileSystemAction( Action ac )
 	{
-		class FileSystemReportError : public FileSystemLogError
-		{
-		public:
-			FileSystemReportError()
-			{
-			}
-			virtual ~FileSystemReportError() override
-			{
-			}
-			void setParent( Action& ac )
-			{
-				m_parent = &ac ;
-			}
-			void logError( int s ) override
-			{
-				m_parent->logError( s ) ;
-			}
-		private:
-			Action * m_parent ;
-		} ;
-
 		class meaw
 		{
 		public:
+			class FileSystemReportError : public FileSystemLogError
+			{
+			public:
+				FileSystemReportError()
+				{
+				}
+				virtual ~FileSystemReportError() override
+				{
+				}
+				void setParent( meaw * parent )
+				{
+					m_parent = parent ;
+				}
+				void logError( int s ) override
+				{
+					m_parent->m_ac.logError( s ) ;
+				}
+			private:
+				meaw * m_parent ;
+			} ;
+
 			meaw( Action ac ) :
 				m_ac( std::move( ac ) ),
 				m_logError( std::make_unique< FileSystemReportError >() )
@@ -1212,7 +1212,7 @@ namespace utility
 			}
 			void bg()
 			{
-				m_logError->setParent( m_ac ) ;
+				m_logError->setParent( this ) ;
 
 				for( int i = 0 ; i < 5 ; i++ ){
 

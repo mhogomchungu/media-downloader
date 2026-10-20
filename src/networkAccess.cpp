@@ -799,11 +799,6 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 		if( !err.isEmpty() ){
 
 			this->failedToRemove( engine.name(),opts.filePath,err,opts.id ) ;
-
-			engine.setBroken() ;
-			this->printVersion( opts.move(),true ) ;
-
-			return ;
 		}
 
 		if( engine.archiveContainsFolder() ){
