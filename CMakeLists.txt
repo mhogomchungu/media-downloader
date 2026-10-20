@@ -72,6 +72,7 @@ set(MOC_FILES
     src/batchdownloader.h
     src/configure.h
     src/library.h
+    src/utility.h
     src/playlistdownloader.h
     src/utils/single_instance.hpp)
 

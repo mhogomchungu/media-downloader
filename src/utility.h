@@ -38,9 +38,9 @@
 #include <iostream>
 #include <vector>
 
-#include "translator.h"
-
 #include "ui_mainwindow.h"
+
+#include "translator.h"
 
 #include "engines.h"
 
@@ -898,6 +898,7 @@ namespace utility
 	QString windowsGateWayAddress() ;
 	QString windowsGetClipBoardText( const ContextWinId& ) ;
 	void windowsSetDarkModeTitleBar( const Context& ) ;
+	void threadSleep( int ) ;
 	QByteArray barLine() ;
 	QString errorMessage() ;
 	void copyToClipboardUrls( tableWidget& ) ;
@@ -1153,43 +1154,85 @@ namespace utility
 		int m_total ;
 	} ;
 
-	void debugFileSystemAction( const QString& command,const QString& src,const QString& dst,const QString& result ) ;
+	class FileSystemLogError : public QObject
+	{
+		Q_OBJECT
+	public:
+		FileSystemLogError()
+		{
+			connect( this,
+				 &FileSystemLogError::report,
+				 this,
+				 &FileSystemLogError::slotReport,
+				 Qt::QueuedConnection ) ;
+		}
+		virtual ~FileSystemLogError() override ;
+		virtual void logError( int ) = 0 ;
+	signals:
+		void report( int ) ;
+	public slots:
+		void slotReport( int s )
+		{
+			this->logError( s ) ;
+		}
+	private:
+	} ;
 
 	template< typename Action >
 	void fileSystemAction( Action ac )
 	{
-		class meaw
+		class FileSystemReportError : public FileSystemLogError
 		{
-			public:
-			meaw( Action ac ) : m_ac( std::move( ac ) )
+		public:
+			FileSystemReportError()
 			{
 			}
-			QString bg()
+			virtual ~FileSystemReportError() override
 			{
-				QString m ;
+			}
+			void setParent( Action& ac )
+			{
+				m_parent = &ac ;
+			}
+			void logError( int s ) override
+			{
+				m_parent->logError( s ) ;
+			}
+		private:
+			Action * m_parent ;
+		} ;
+
+		class meaw
+		{
+		public:
+			meaw( Action ac ) :
+				m_ac( std::move( ac ) ),
+				m_logError( std::make_unique< FileSystemReportError >() )
+			{
+			}
+			void bg()
+			{
+				m_logError->setParent( m_ac ) ;
 
 				for( int i = 0 ; i < 5 ; i++ ){
 
-					m = m_ac.bg() ;
-
-					utility::debugFileSystemAction( m_ac.command(),m_ac.src(),m_ac.dst(),m ) ;
-
-					if( m.isEmpty() ){
+					if( m_ac.bg() ){
 
 						break ;
 					}else{
-						QThread::currentThread()->sleep( 1 ) ;
+						emit m_logError->report( i ) ;
+
+						utility::threadSleep( 1 ) ;
 					}
 				}
-
-				return m ;
 			}
-			void fg( QString s )
+			void fg()
 			{
-				m_ac.fg( std::move( s ) ) ;
+				m_ac.fg() ;
 			}
 		private:
 			Action m_ac ;
+			std::unique_ptr< FileSystemReportError > m_logError ;
 		} ;
 
 		utils::qthread::run( meaw( std::move( ac ) ) ) ;

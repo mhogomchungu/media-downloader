@@ -266,23 +266,13 @@ static QStringList listOptionsFromDownloadOptions( const QString& e )
 
 }
 
-void utility::debugFileSystemAction( const QString& command,
-				     const QString& src,
-				     const QString& dst,
-				     const QString& result )
+void utility::threadSleep( int s )
 {
-	if( utility::cliArguments::debug() && !result.isEmpty() ){
+	QThread::currentThread()->sleep( static_cast< unsigned long >( s ) ) ;
+}
 
-		qDebug() << command ;
-		qDebug() << "src: " + src ;
-
-		if( !dst.isEmpty() ){
-
-			qDebug() << "dst: " + dst ;
-		}
-
-		qDebug() << result ;
-	}
+utility::FileSystemLogError::~FileSystemLogError()
+{
 }
 
 QStringList utility::dirEntries( const QString& e )
