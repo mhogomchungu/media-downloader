@@ -1160,16 +1160,15 @@ namespace utility
 	public:
 		FileSystemLogError()
 		{
-			connect( this,
-				 &FileSystemLogError::report,
-				 this,
-				 &FileSystemLogError::slotReport,
-				 Qt::QueuedConnection ) ;
+			auto a = &FileSystemLogError::reportError ;
+			auto b = &FileSystemLogError::slotReport ;
+
+			connect( this,a,this,b,Qt::QueuedConnection ) ;
 		}
 		virtual ~FileSystemLogError() override ;
 		virtual void logError( int ) = 0 ;
 	signals:
-		void report( int ) ;
+		void reportError( int ) ;
 	public slots:
 		void slotReport( int s )
 		{
@@ -1184,43 +1183,44 @@ namespace utility
 		class meaw
 		{
 		public:
-			class FileSystemReportError : public FileSystemLogError
+			class fsAction : public FileSystemLogError
 			{
 			public:
-				FileSystemReportError()
+				fsAction( Action ac ) : m_ac( std::move( ac ) )
 				{
 				}
-				virtual ~FileSystemReportError() override
+				virtual ~fsAction() override
 				{
 				}
-				void setParent( meaw * parent )
+				bool bg()
 				{
-					m_parent = parent ;
+					return m_ac.bg() ;
+				}
+				void fg()
+				{
+					m_ac.fg() ;
 				}
 				void logError( int s ) override
 				{
-					m_parent->m_ac.logError( s ) ;
+					m_ac.logError( s ) ;
 				}
 			private:
-				meaw * m_parent ;
+				Action m_ac ;
 			} ;
 
 			meaw( Action ac ) :
-				m_ac( std::move( ac ) ),
-				m_logError( std::make_unique< FileSystemReportError >() )
+				m_actions( std::make_unique< fsAction >( std::move( ac ) ) )
 			{
 			}
 			void bg()
 			{
-				m_logError->setParent( this ) ;
-
 				for( int i = 0 ; i < 5 ; i++ ){
 
-					if( m_ac.bg() ){
+					if( m_actions->bg() ){
 
 						break ;
 					}else{
-						emit m_logError->report( i ) ;
+						emit m_actions->reportError( i ) ;
 
 						utility::threadSleep( 1 ) ;
 					}
@@ -1228,11 +1228,10 @@ namespace utility
 			}
 			void fg()
 			{
-				m_ac.fg() ;
+				m_actions->fg() ;
 			}
 		private:
-			Action m_ac ;
-			std::unique_ptr< FileSystemReportError > m_logError ;
+			std::unique_ptr< fsAction > m_actions ;
 		} ;
 
 		utils::qthread::run( meaw( std::move( ac ) ) ) ;
