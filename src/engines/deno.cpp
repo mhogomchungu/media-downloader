@@ -122,7 +122,6 @@ void deno::updateVersionString( QString& m )
 		//Deno 2.7.0 has a bad version string
 
 		m = "2.7.0" ;
-
 	}
 }
 

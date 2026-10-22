@@ -18,13 +18,8 @@
  */
 
 /*
- * In flatpak, deno sends "Failed getting cwd: No such file or directory (os error 2)"
- * warnind to std error before printing version info to std out.
- *
- * yt-dlp, combines both outputs and then gets confused by the above warning and rejects deno
- * when it calls deno with "--version" argument to get its version.
- *
- * The purpose of this binary is to supress deno warning.
+ * Deno does not work as expected in flatpak because the application starts with cwd not set.
+ * We set it to a path that is always available before calling deno.
  */
 
 #include <iostream>
@@ -34,8 +29,9 @@
 #include <QString>
 #include <QProcess>
 #include <QStandardPaths>
+#include <QDir>
 
-static QString denoPath()
+static QString appPath()
 {
 	auto s = QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
 
@@ -44,8 +40,18 @@ static QString denoPath()
 		//?????
 		return "" ;
 	}else{
-		return s.first() + "/media-downloader/bin/deno" ;
+		return s.first() + "/media-downloader/" ;
 	}
+}
+
+static QString denoPath( const QString& basePath )
+{
+	return basePath + "/bin/deno" ;
+}
+
+static QString tmpPath( const QString& basePath )
+{
+	return basePath + "/tmp" ;
 }
 
 static QByteArray stdinData()
@@ -62,7 +68,7 @@ static QByteArray stdinData()
 
 int main( int argc,char * argv[] )
 {
-	auto exe = denoPath() ;
+	auto basePath = appPath() ;
 
 	QCoreApplication app( argc,argv ) ;
 
@@ -75,9 +81,11 @@ int main( int argc,char * argv[] )
 		args.append( argv[ i ] ) ;
 	}
 
+	QDir::setCurrent( tmpPath( basePath ) ) ;
+
 	QProcess deno ;
 
-	deno.start( exe,args ) ;
+	deno.start( denoPath( basePath ),args ) ;
 
 	deno.waitForStarted() ;
 
@@ -93,11 +101,7 @@ int main( int argc,char * argv[] )
 
 		std::cout << deno.readAllStandardOutput().data() ;
 	}else{
-		auto m = deno.readAllStandardError() ;
-
-		auto s = "Failed getting cwd: No such file or directory (os error 2)" ;
-
-		std::cerr << m.replace( s,"" ).trimmed().data() ;
+		std::cerr << deno.readAllStandardError().data() ;
 	}
 
 	return m ;
