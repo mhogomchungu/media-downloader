@@ -36,7 +36,6 @@
 #include <QFile>
 #include <QDir>
 #include <QJsonDocument>
-#include <QOperatingSystemVersion>
 
 #include <ctime>
 #include <cstring>
@@ -301,94 +300,96 @@ QString utility::SysPlatForm::errorMessage() const
 #endif
 }
 
-bool utility::SysPlatForm::AncientWindows( const QOperatingSystemVersion& system )
+bool utility::SysPlatForm::AncientWindows( const utility::OperatingSystemVersion& system )
 {
-#ifdef Q_OS_WIN
 	if( utility::local::pretendPlatform().isWindows7() ){
 
 		return true ;
 	}else{
-		return system < QOperatingSystemVersion::Windows10 ;
+		#ifdef Q_OS_WIN
+			return system.get() < QOperatingSystemVersion::Windows10 ;
+		#else
+			Q_UNUSED( system )
+			return false ;
+		#endif
 	}
-#else
-	Q_UNUSED( system )
-	return false ;
-#endif
 }
 
-bool utility::SysPlatForm::win7( const QOperatingSystemVersion& system )
+bool utility::SysPlatForm::win7( const utility::OperatingSystemVersion& system )
 {
-#ifdef Q_OS_WIN
 	if( utility::local::pretendPlatform().isWindows7() ){
 
 		return true ;
 	}else{
-		return system < QOperatingSystemVersion::Windows8 ;
+		#ifdef Q_OS_WIN
+			return system.get() < QOperatingSystemVersion::Windows8 ;
+		#else
+			Q_UNUSED( system )
+			return false ;
+		#endif
 	}
-#else
-	Q_UNUSED( system )
-	return false ;
-#endif
 }
 
-bool utility::SysPlatForm::ModernWindows( const QOperatingSystemVersion& system )
+bool utility::SysPlatForm::ModernWindows( const utility::OperatingSystemVersion& system )
 {
-	if( utility::platformIsWindows() ){
+	if( utility::local::pretendPlatform().isModernWindows() ){
 
-		if( utility::local::pretendPlatform().isModernWindows() ){
+		return true ;
 
-			return true ;
+	}else if( utility::CPU().x86_64() ){
 
-		}else if( utility::CPU().x86_64() ){
-
+		#ifdef Q_OS_WIN
 			#if QT_VERSION >= QT_VERSION_CHECK( 6,5,0 )
 
-				return system >= QOperatingSystemVersion::Windows10_22H2 ;
+				return system.get() >= QOperatingSystemVersion::Windows10_22H2 ;
 			#else
 				Q_UNUSED( system )
-				return false ;
 			#endif
-		}
+		#else
+			Q_UNUSED( system )
+		#endif
 	}
 
 	return false ;
-
 }
 
-bool utility::SysPlatForm::LegacyWindows( const QOperatingSystemVersion& system )
+bool utility::SysPlatForm::LegacyWindows( const utility::OperatingSystemVersion& sys )
 {
-#ifdef Q_OS_WIN
 	const auto& m = utility::local::pretendPlatform() ;
 
 	if( m.isLegacyWindows() || m.isWindows7() ){
 
 		return true ;
 	}else{
-		if( system < QOperatingSystemVersion::Windows10 ){
+		#ifdef Q_OS_WIN
 
-			return true ;
+			const auto& system = sys.get() ;
 
-		}else if( system > QOperatingSystemVersion::Windows10 ){
+			if( system < QOperatingSystemVersion::Windows10 ){
 
+				return true ;
+
+			}else if( system > QOperatingSystemVersion::Windows10 ){
+
+				return false ;
+			}else{
+				/*
+				 * Windows 10 (1903)       10.0.18362
+				 * Windows 10 (1809)       10.0.17763
+				 * Windows 10 (1803)       10.0.17134
+				 * Windows 10 (1709)       10.0.16299
+				 * Windows 10 (1703)       10.0.15063
+				 * Windows 10 (1607)       10.0.14393
+				 * Windows 10 (1511)       10.0.10586
+				 * Windows 10              10.0.10240
+				 */
+				return system.microVersion() < 16299 ;
+			}
+		#else
+			Q_UNUSED( sys )
 			return false ;
-		}else{
-			/*
-			 * Windows 10 (1903)       10.0.18362
-			 * Windows 10 (1809)       10.0.17763
-			 * Windows 10 (1803)       10.0.17134
-			 * Windows 10 (1709)       10.0.16299
-			 * Windows 10 (1703)       10.0.15063
-			 * Windows 10 (1607)       10.0.14393
-			 * Windows 10 (1511)       10.0.10586
-			 * Windows 10              10.0.10240
-			 */
-			return system.microVersion() < 16299 ;
-		}
+		#endif
 	}
-#else
-	Q_UNUSED( system )
-	return false ;
-#endif
 }
 
 bool utility::platformisOS2()

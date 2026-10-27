@@ -31,7 +31,10 @@
 #include <QTime>
 #include <QNetworkProxy>
 #include <QMutex>
+
+#ifdef Q_OS_WIN
 #include <QOperatingSystemVersion>
+#endif
 
 #include <type_traits>
 #include <memory>
@@ -496,13 +499,36 @@ namespace utility
 		bool m_pretendLegacyWindows = false ;
 		bool m_pretendModernWindows = false;
 	} ;
-
+	#ifdef Q_OS_WIN
+		class OperatingSystemVersion
+		{
+		public:
+			OperatingSystemVersion() : m_os( QOperatingSystemVersion::current() )
+			{
+			}
+			const QOperatingSystemVersion& get() const
+			{
+				return m_os ;
+			}
+		private:
+			QOperatingSystemVersion m_os ;
+		} ;
+	#else
+		class OperatingSystemVersion
+		{
+		public:
+			OperatingSystemVersion()
+			{
+			}
+		private:
+		} ;
+	#endif
 	class SysPlatForm
 	{
 	public:
 		SysPlatForm()
 		{
-			auto m            = QOperatingSystemVersion::current() ;
+			utility::OperatingSystemVersion m ;
 
 			m_isWin7            = this->win7( m ) ;
 			m_isAncientWindows  = this->AncientWindows( m ) ;
@@ -559,10 +585,10 @@ namespace utility
 			#endif
 		}
 	private:
-		bool AncientWindows( const QOperatingSystemVersion& system ) ;
-		bool LegacyWindows( const QOperatingSystemVersion& system ) ;
-		bool ModernWindows( const QOperatingSystemVersion& system ) ;
-		bool win7( const QOperatingSystemVersion& system ) ;
+		bool AncientWindows( const utility::OperatingSystemVersion& system ) ;
+		bool LegacyWindows( const utility::OperatingSystemVersion& system ) ;
+		bool ModernWindows( const utility::OperatingSystemVersion& system ) ;
+		bool win7( const utility::OperatingSystemVersion& system ) ;
 		bool m_isWin7 ;
 		bool m_isAncientWindows ;
 		bool m_isLegacyWindows ;
