@@ -847,27 +847,18 @@ void engines::engine::setJsRuntime()
 {
 	if( m_extraArguments.isEmpty() && m_likeYtDlp ){
 
-		if( utility::platformIsLegacyWindows() ){
+		using jsRuntime = engines::engine::jsRuntimeInstalled ;
 
-			engines::engine::jsRuntimeInstalled js( m_parent,"quickjs-ng" ) ;
+		auto lw = utility::platformIsLegacyWindows() ;
 
-			if( js.valid() ){
+		auto js = lw ? jsRuntime( m_parent,"quickjs-ng" ) : jsRuntime( m_parent ) ;
 
-				m_extraArguments.append( "--no-js-runtimes" ) ;
-				m_extraArguments.append( "--js-runtimes" ) ;
+		if( js.valid() ){
 
-				m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
-			}
-		}else{
-			engines::engine::jsRuntimeInstalled js( m_parent ) ;
+			m_extraArguments.append( "--no-js-runtimes" ) ;
+			m_extraArguments.append( "--js-runtimes" ) ;
 
-			if( js.valid() ){
-
-				m_extraArguments.append( "--no-js-runtimes" ) ;
-				m_extraArguments.append( "--js-runtimes" ) ;
-
-				m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
-			}
+			m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
 		}
 	}
 }
@@ -898,7 +889,7 @@ engines::engine::cmd engines::engine::getCommands( const QString& engineName,con
 
 	utility::CPU cpu ;
 
-	if( utility::platformIsWindows7() && engineName == "yt-dlp" ){
+	if( utility::platformIsAncientWindows() && engineName == "yt-dlp" ){
 
 		auto url = obj.value( "DownloadUrlWin7" ).toString() ;
 
@@ -1056,7 +1047,7 @@ engines::engine::engine( Logger& logger,
 	m_controlStructure( m_jsonObject.value( "ControlJsonStructure" ).toObject() ),
 	m_parent( engines )
 {
-	if( utility::platformIsWindows7() ){
+	if( utility::platformIsAncientWindows() ){
 
 		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraOptionsWin7" ) ) ;
 
@@ -2870,7 +2861,6 @@ engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e )
 
 		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
 	}
-
 }
 
 engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e,const utils::misc::string& s )

@@ -504,13 +504,14 @@ namespace utility
 		{
 			auto m            = QOperatingSystemVersion::current() ;
 
-			m_isWin7          = this->Win7( m ) ;
-			m_isLegacyWindows = this->LegacyWindows( m ) ;
-			m_isModernWindows = this->ModernWindows( m ) ;
+			m_isWin7            = this->win7( m ) ;
+			m_isAncientWindows  = this->AncientWindows( m ) ;
+			m_isLegacyWindows   = this->LegacyWindows( m ) ;
+			m_isModernWindows   = this->ModernWindows( m ) ;
 		}
-		bool isWin7() const
+		bool isAncientWindows() const
 		{
-			return m_isWin7 ;
+			return m_isAncientWindows ;
 		}
 		bool isLegacyWindows() const
 		{
@@ -519,6 +520,10 @@ namespace utility
 		bool isModernWindows() const
 		{
 			return m_isModernWindows ;
+		}
+		bool isWindows7() const
+		{
+			return m_isWin7 ;
 		}
 		QString errorMessage() const ;
 		bool isOs2() const
@@ -554,10 +559,12 @@ namespace utility
 			#endif
 		}
 	private:
-		bool Win7( const QOperatingSystemVersion& system ) ;
+		bool AncientWindows( const QOperatingSystemVersion& system ) ;
 		bool LegacyWindows( const QOperatingSystemVersion& system ) ;
 		bool ModernWindows( const QOperatingSystemVersion& system ) ;
+		bool win7( const QOperatingSystemVersion& system ) ;
 		bool m_isWin7 ;
+		bool m_isAncientWindows ;
 		bool m_isLegacyWindows ;
 		bool m_isModernWindows ;
 	} ;
@@ -874,6 +881,7 @@ namespace utility
 	bool pathIsFolderAndExists( const QString& ) ;
 	bool platformIsWindows() ;
 	bool platformIsWindows7() ;
+	bool platformIsAncientWindows() ;
 	bool platformIsLegacyWindows() ;
 	bool platformIsModernWindows() ;
 	bool platformIsLinux() ;
