@@ -503,5 +503,6 @@ Version 1.2.0(April 1st, 2021)
       - Qt6 build installer now Defaults to use "C:\Program Files" instead of "C:\Progran Files (x86)".
       - Users of Qt6 installer are advised to unistall first before running the installer to make possible
         for the new install path to be used.
+      - Switch to nicolaasjan's yt-dlp for users who use windows version less than windows 10.
      [FLATPAK]
       - Use deno instead of quickjs-ng as yt-dlp javascript runtime.

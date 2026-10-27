@@ -333,22 +333,26 @@ bool utility::SysPlatForm::win7( const QOperatingSystemVersion& system )
 
 bool utility::SysPlatForm::ModernWindows( const QOperatingSystemVersion& system )
 {
-#ifdef Q_OS_WIN
+	if( utility::platformIsWindows() ){
 
-	if( utility::local::pretendPlatform().isModernWindows() ){
+		if( utility::local::pretendPlatform().isModernWindows() ){
 
-		return true ;
+			return true ;
 
-	}else if( utility::CPU().x86_64() ){
+		}else if( utility::CPU().x86_64() ){
 
-		return system >= QOperatingSystemVersion::Windows10_22H2 ;
-	}else{
-		return false ;
+			#if QT_VERSION >= QT_VERSION_CHECK( 6,5,0 )
+
+				return system >= QOperatingSystemVersion::Windows10_22H2 ;
+			#else
+				Q_UNUSED( system )
+				return false ;
+			#endif
+		}
 	}
-#else
-	Q_UNUSED( system )
+
 	return false ;
-#endif
+
 }
 
 bool utility::SysPlatForm::LegacyWindows( const QOperatingSystemVersion& system )
