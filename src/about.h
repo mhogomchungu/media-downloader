@@ -42,7 +42,7 @@ public:
 	void textAlignmentChanged( Qt::LayoutDirection ) ;
 private:
 	QString language() ;
-	QString QtVersion() ;
+	QString QtAndWindowsVersion() ;
 	const Context& m_ctx ;
 };
 

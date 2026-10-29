@@ -62,7 +62,7 @@ void about::retranslateUi()
 	auto license   = QObject::tr( "License" ) ;
 	auto email     = QObject::tr( "Email" ) ;
 
-	auto QtVersion = this->QtVersion() ;
+	auto QtVersion = this->QtAndWindowsVersion() ;
 
 	auto banner1 = QObject::tr( "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version." ) ;
 	auto banner2 = QObject::tr( "This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details." ) ;
@@ -107,9 +107,19 @@ QString about::language()
 	return a + "<br>" + b ;
 }
 
-QString about::QtVersion()
+QString about::QtAndWindowsVersion()
 {
-	return QObject::tr( "Qt Version: %1<br><br>" ).arg( qVersion() ) ;
+	auto a = QObject::tr( "Qt Version: %1<br><br>" ).arg( qVersion() ) ;
+
+	if( utility::platformIsWindows() ){
+
+		auto m = utility::OperatingSystemVersion().toString() ;
+
+		a += QObject::tr( "Windows Version: %1<br><br>" ).arg( m ) ;
+
+	}
+
+	return a ;
 }
 
 void about::keyPressed( utility::mainWindowKeyCombo )

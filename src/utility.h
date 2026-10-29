@@ -537,6 +537,15 @@ namespace utility
 				return false ;
 			}
 		}
+		QString toString()
+		{
+			auto a = QString::number( m_major ) ;
+			auto b = QString::number( m_minor ) ;
+			auto c = QString::number( m_patch ) ;
+
+			return a + "." + b + "." + c ;
+
+		}
 	private:
 		int m_major = 0 ;
 		int m_minor = 0 ;
