@@ -1149,7 +1149,7 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Translators: NAME_AND_DATE_EXAMPLE: John Smith(2021-2026), Tembo(2022,2025)</source>
-        <translation>Traduzione: v. 04/10/2026 a cura di RB</translation>
+        <translation>Traduzione: v. 29.10.2026 a cura di RB</translation>
     </message>
     <message>
         <source>Failed To Parse Data From: %1</source>
@@ -1157,7 +1157,7 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Windows Version: %1&lt;br&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione Windows: %1&lt;br&gt;&lt;br&gt;</translation>
     </message>
 </context>
 <context>
