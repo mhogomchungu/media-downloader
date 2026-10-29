@@ -1154,6 +1154,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Failed To Parse Data From: %1</source>
         <translation>データの解析に失敗しました: %1</translation>
     </message>
+    <message>
+        <source>Windows Version: %1&lt;br&gt;&lt;br&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

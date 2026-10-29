@@ -1154,6 +1154,10 @@ Exemple 2&#xa0;: ${gateway}:8080</translation>
         <source>Failed To Parse Data From: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Windows Version: %1&lt;br&gt;&lt;br&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

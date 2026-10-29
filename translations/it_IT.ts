@@ -1155,6 +1155,10 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <source>Failed To Parse Data From: %1</source>
         <translation>Analisi dati non riuscita da: %1</translation>
     </message>
+    <message>
+        <source>Windows Version: %1&lt;br&gt;&lt;br&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
