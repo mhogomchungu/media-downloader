@@ -32,10 +32,6 @@
 #include <QNetworkProxy>
 #include <QMutex>
 
-#ifdef Q_OS_WIN
-#include <QOperatingSystemVersion>
-#endif
-
 #include <type_traits>
 #include <memory>
 #include <iostream>
@@ -499,41 +495,68 @@ namespace utility
 		bool m_pretendLegacyWindows = false ;
 		bool m_pretendModernWindows = false;
 	} ;
-	#ifdef Q_OS_WIN
-		class OperatingSystemVersion
+
+	class OperatingSystemVersion
+	{
+	public:
+		OperatingSystemVersion() ;
+		bool windows7() const
 		{
-		public:
-			OperatingSystemVersion() : m_os( QOperatingSystemVersion::current() )
-			{
-			}
-			const QOperatingSystemVersion& get() const
-			{
-				return m_os ;
-			}
-		private:
-			QOperatingSystemVersion m_os ;
-		} ;
-	#else
-		class OperatingSystemVersion
+			return m_major == 6 && m_minor == 1 ;
+		}
+		bool atLeastWindows10_22H2() const
 		{
-		public:
-			OperatingSystemVersion()
-			{
+			if( m_major == 10 && m_minor == 0 ){
+
+				//Windows10 22H2(Windows 10 October 2022 Update)
+				return m_patch >= 19045 ;
+			}else{
+				return false ;
 			}
-		private:
-		} ;
-	#endif
+		}
+		bool atLeastWindows11() const
+		{
+			if( m_major == 10 && m_minor == 0 ){
+
+				return m_patch >= 22000 ;
+			}else{
+				return false ;
+			}
+		}
+		bool windows7_or_8() const
+		{
+			//Win 7(6.1) and Win 8(6.2/6.3)
+			return m_major < 10 ;
+		}
+		bool atMosttWindows10_1709() const
+		{
+			if( m_major == 10 && m_minor == 0 ){
+
+				return m_patch <= 16299 ;
+			}else{
+				return false ;
+			}
+		}
+	private:
+		int m_major = 0 ;
+		int m_minor = 0 ;
+		int m_patch = 0 ;
+	} ;
 	class SysPlatForm
 	{
 	public:
 		SysPlatForm()
 		{
-			utility::OperatingSystemVersion m ;
+			if( this->isWindows() ){
 
-			m_isWin7            = this->win7( m ) ;
-			m_isAncientWindows  = this->AncientWindows( m ) ;
-			m_isLegacyWindows   = this->LegacyWindows( m ) ;
-			m_isModernWindows   = this->ModernWindows( m ) ;
+				utility::OperatingSystemVersion m ;
+
+				m_isWin7            = this->win7( m ) ;
+				m_isAncientWindows  = this->AncientWindows( m ) ;
+				m_isLegacyWindows   = this->LegacyWindows( m ) ;
+				m_isModernWindows   = this->ModernWindows( m ) ;
+
+			}
 		}
 		bool isAncientWindows() const
 		{
@@ -589,10 +612,10 @@ namespace utility
 		bool LegacyWindows( const utility::OperatingSystemVersion& system ) ;
 		bool ModernWindows( const utility::OperatingSystemVersion& system ) ;
 		bool win7( const utility::OperatingSystemVersion& system ) ;
-		bool m_isWin7 ;
-		bool m_isAncientWindows ;
-		bool m_isLegacyWindows ;
-		bool m_isModernWindows ;
+		bool m_isWin7           = false ;
+		bool m_isAncientWindows = false ;
+		bool m_isLegacyWindows  = false ;
+		bool m_isModernWindows  = false ;
 	} ;
 
 	void setPlatForms( const utility::PretendPlatform& ) ;
