@@ -26,6 +26,7 @@ class deno : public engines::engine::baseEngine
 public:
 	static void init( QJsonObject&,settings&,const engines::enginePaths& enginePath ) ;
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
+	static engines::engine::jsRuntimeInstalled::engine jsRuntime() ;
 	~deno() override ;
 	bool foundNetworkUrl( const QString& s ) override ;
 	void updateVersionString( QString& ) override ;

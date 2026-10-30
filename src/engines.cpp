@@ -259,7 +259,7 @@ engines::EnginesList::engine engines::getEngineByPath( const QString& e ) const
 	}
 }
 
-engines::EnginesList::engine engines::getEngineByPath1( QJsonObject object ) const
+engines::EnginesList::engine engines::getEngineByPath1( const QJsonObject& object ) const
 {
 	auto minVersion = object.value( "RequiredMinimumVersionOfMediaDownloader" ).toString() ;
 
@@ -2849,17 +2849,21 @@ QProcessEnvironment engines::engine::baseEngine::optionsEnvironment::update( con
 
 engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e )
 {
+	auto deno = deno::jsRuntime() ;
+
 	if( utility::platformisFlatPak() ){
 
-		std::array< entry,1 > list = { { { "deno","deno_md" } } } ;
+		auto m = engines::engine::jsRuntimeInstalled::makeRuntimeList( deno ) ;
 
-		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
-	}else{
-		auto m = quickjs_ng::getNameAndExe() ;
+		this->search( e,m,!e.Settings().useSystemSupportingEngine() ) ;
+	}else{		
+		auto quickjs = quickjs_ng::jsRuntime() ;
 
-		std::array< entry,2 > list = { { { "deno" },{ m.name(),m.exe() } } } ;
+		auto node = engines::engine::jsRuntimeInstalled::engine( "node" ) ;
 
-		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
+		auto m = engines::engine::jsRuntimeInstalled::makeRuntimeList( deno,node,quickjs ) ;
+
+		this->search( e,m,!e.Settings().useSystemSupportingEngine() ) ;
 	}
 }
 
@@ -2867,15 +2871,17 @@ engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e,const 
 {
 	if( s == "quickjs-ng" ){
 
-		auto m = quickjs_ng::getNameAndExe() ;
+		auto quickjs = quickjs_ng::jsRuntime() ;
 
-		std::array< entry,1 > list = { { { m.name(),m.exe() } } } ;
+		auto m = engines::engine::jsRuntimeInstalled::makeRuntimeList( quickjs ) ;
 
-		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
+		this->search( e,m,!e.Settings().useSystemSupportingEngine() ) ;
 	}else{
-		std::array< entry,1 > list = { { s } } ;
+		auto a = engines::engine::jsRuntimeInstalled::engine( s ) ;
 
-		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
+		auto m = engines::engine::jsRuntimeInstalled::makeRuntimeList( a ) ;
+
+		this->search( e,m,!e.Settings().useSystemSupportingEngine() ) ;
 	}
 }
 

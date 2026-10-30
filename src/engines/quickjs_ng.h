@@ -18,7 +18,6 @@
  */
 
 #include "../engines.h"
-#include "../utils/miscellaneous.hpp"
 #include "../utility.h"
 
 class quickjs_ng : public engines::engine::baseEngine
@@ -28,26 +27,8 @@ public:
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
 	QString parseVersionInfo( const utils::qprocess::outPut& ) override ;
 
-	class nameAndExe
-	{
-	public:
-		nameAndExe( const utils::misc::string& e ) : m_name( "quickjs" ),m_exe( e )
-		{
-		}
-		const utils::misc::string& name() const
-		{
-			return m_name ;
-		}
-		const utils::misc::string& exe() const
-		{
-			return m_exe ;
-		}
-	private:
-		utils::misc::string m_name ;
-		utils::misc::string m_exe ;
-	} ;
-	static nameAndExe getNameAndExe() ;
-	~quickjs_ng() ;
+	static engines::engine::jsRuntimeInstalled::engine jsRuntime() ;
+	~quickjs_ng() override ;
 	quickjs_ng( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
 	static utility::addJsonCmd::entry::args entryCmd( const QString& ) ;

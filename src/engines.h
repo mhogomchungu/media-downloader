@@ -1146,6 +1146,35 @@ public:
 		public:
 			jsRuntimeInstalled( const engines& ) ;
 			jsRuntimeInstalled( const engines&,const utils::misc::string& ) ;
+			class engine
+			{
+			public:
+				engine( utils::misc::string n,utils::misc::string e ) :
+				    m_name( n ),m_exe( e )
+				{
+				}
+				engine( utils::misc::string n ) : m_name( n ),m_exe( n )
+				{
+				}
+				const utils::misc::string& name() const
+				{
+					return m_name ;
+				}
+				const utils::misc::string& exe() const
+				{
+					return m_exe ;
+				}
+			private:
+				utils::misc::string m_name ;
+				utils::misc::string m_exe ;
+			} ;
+
+			template< typename ... Args >
+			static std::array< engine,sizeof ... ( Args ) > makeRuntimeList( Args&& ... args )
+			{
+				return { { static_cast< engine >( args ) ... } } ;
+			}
+
 			const QString& name() const
 			{
 				return m_name ;
@@ -1180,28 +1209,7 @@ public:
 					}
 				}
 			}
-			class entry
-			{
-			public:
-				entry( utils::misc::string n,utils::misc::string e ) :
-					m_name( n ),m_exe( e )
-				{
-				}
-				entry( utils::misc::string n ) : m_name( n ),m_exe( n )
-				{
-				}
-				const utils::misc::string& name() const
-				{
-					return m_name ;
-				}
-				const utils::misc::string& exe() const
-				{
-					return m_exe ;
-				}
-			private:
-				utils::misc::string m_name ;
-				utils::misc::string m_exe ;
-			} ;
+
 			QString m_name ;
 			QString m_exeName ;
 			QString m_exePath ;
@@ -2008,7 +2016,7 @@ private:
 	void removeEngineFromList( const QString&,int ) ;
 	void updateEngines( int ) ;
 	engines::EnginesList::engine getEngineByPath( const QString& ) const ;
-	engines::EnginesList::engine getEngineByPath1( QJsonObject ) const ;
+	engines::EnginesList::engine getEngineByPath1( const QJsonObject& ) const ;
 	using converter = QJsonObject( * )( QJsonObject,const QJsonObject& ) ;
 	engines::EnginesList::engine getEngineByPath2( const QString&,const QString& = {},engines::converter = nullptr ) const ;
 	engines::EnginesList::engine getSupportingEngineByName( const QString& ) const ;

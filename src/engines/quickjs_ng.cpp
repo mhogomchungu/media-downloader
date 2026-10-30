@@ -115,30 +115,28 @@ QString quickjs_ng::parseVersionInfo( const utils::qprocess::outPut& e )
 	return {} ;
 }
 
-quickjs_ng::nameAndExe quickjs_ng::getNameAndExe()
+engines::engine::jsRuntimeInstalled::engine quickjs_ng::jsRuntime()
 {
 	utility::CPU cpu ;
-
-	using str = utils::misc::string ;
 
 	if( utility::platformIsWindows() ){
 
 		if( cpu.x86_64() ){
 
-			return str( "qjs-windows-x86_64.exe" ) ;
+			return { "quickjs","qjs-windows-x86_64.exe" } ;
 		}else{
-			return str( "qjs-windows-x86.exe" ) ;
+			return { "quickjs","qjs-windows-x86.exe" } ;
 		}
 	}else{
 		if( cpu.x86_64() ){
 
-			return str( "qjs-linux-x86_64" ) ;
+			return { "quickjs","qjs-linux-x86_64" } ;
 
 		}else if( cpu.aarch64() ){
 
-			return str( "qjs-linux-aarch64" ) ;
+			return { "quickjs","qjs-linux-aarch64" } ;
 		}else{
-			return str( "qjs-linux-x86" ) ;
+			return { "quickjs","qjs-linux-x86" } ;
 		}
 	}
 }

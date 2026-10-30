@@ -99,6 +99,16 @@ void deno::remove( Logger&,const engines::enginePaths& )
 {
 }
 
+engines::engine::jsRuntimeInstalled::engine deno::jsRuntime()
+{
+	if( utility::platformisFlatPak() ){
+
+		return { "deno","deno_md" } ;
+	}else{
+		return { "deno" } ;
+	}
+}
+
 deno::~deno()
 {
 }
