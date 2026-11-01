@@ -1270,6 +1270,10 @@ namespace utility
 				{
 					m_ac.logError( s ) ;
 				}
+				int retries()
+				{
+					return m_ac.retries() ;
+				}
 			private:
 				Action m_ac ;
 			} ;
@@ -1280,7 +1284,7 @@ namespace utility
 			}
 			void bg()
 			{
-				for( int i = 0 ; i < 5 ; i++ ){
+				for( int i = 1 ; i <= m_actions->retries() ; i++ ){
 
 					if( m_actions->bg() ){
 
