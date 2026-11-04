@@ -26,7 +26,7 @@ public:
 	static void init( QJsonObject&,const engines::enginePaths& enginePath ) ;
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
 	QString parseVersionInfo( const utils::qprocess::outPut& ) override ;
-
+	bool foundNetworkUrl( const QString& s ) override ;
 	static engines::engine::jsRuntimeInstalled::engine jsRuntime() ;
 	~quickjs_ng() override ;
 	quickjs_ng( const engines&,const engines::engine&,QJsonObject& ) ;
