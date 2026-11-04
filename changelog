@@ -506,3 +506,9 @@ Version 1.2.0(April 1st, 2021)
       - Switch to nicolaasjan's yt-dlp for users who use windows version less than windows 10.
      [FLATPAK]
       - Use deno instead of quickjs-ng as yt-dlp javascript runtime.
+
+      Version 5.6.8(November 4th, 2026)
+     [WINDOWS 7 AND WINDOWS 8]
+      - Pin quickjs-ng version to version 0.17.0 because version 0.18.0 hangs on 64 bit windows.
+     [FLATPAK]
+       - Update kde runtime to version 6.11.
