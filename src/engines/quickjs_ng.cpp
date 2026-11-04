@@ -25,10 +25,10 @@ utility::addJsonCmd::entry::args quickjs_ng::entryCmd( const QString& e )
 
 	if( e == "Windows" ){
 
-		data.emplace_back( "win7x86","qjs-windows-x86_1.exe" ) ;
-		data.emplace_back( "win7amd64","qjs-windows-x86_64_1.exe" ) ;
-		data.emplace_back( "x86","qjs-windows-x86_1.exe" ) ;
-		data.emplace_back( "amd64","qjs-windows-x86_64_1.exe" ) ;
+		data.emplace_back( "win7x86",quickjs_ng::win32ExeName() ) ;
+		data.emplace_back( "win7amd64",quickjs_ng::win64ExeName() ) ;
+		data.emplace_back( "x86",quickjs_ng::win32ExeName() ) ;
+		data.emplace_back( "amd64",quickjs_ng::win64ExeName() ) ;
 
 	}else if( e == "MacOS" ){
 
@@ -53,9 +53,9 @@ void quickjs_ng::init( QJsonObject& mainObj,const engines::enginePaths& enginePa
 		QFile::remove( m ) ;
 	}
 
-	auto e = quickjs_ng::jsRuntime() ;
+	auto e = quickjs_ng::exeName( quickjs_ng::jsRuntime().exe() ) ;
 
-	auto exe = enginePath.binPath( e.exe() ).replace( "_1","" ) ;
+	auto exe = enginePath.binPath( e ) ;
 
 	if( QFile::exists( exe ) ){
 
@@ -137,9 +137,7 @@ QString quickjs_ng::parseVersionInfo( const utils::qprocess::outPut& e )
 
 bool quickjs_ng::foundNetworkUrl( const QString& s )
 {
-	QString e = quickjs_ng::jsRuntime().exe() ;
-
-	return e.replace( "_1","" ) == s ;
+	return quickjs_ng::exeName( quickjs_ng::jsRuntime().exe() ) == s ;
 }
 
 engines::engine::jsRuntimeInstalled::engine quickjs_ng::jsRuntime()
@@ -150,9 +148,9 @@ engines::engine::jsRuntimeInstalled::engine quickjs_ng::jsRuntime()
 
 		if( cpu.x86_64() ){
 
-			return { "quickjs","qjs-windows-x86_64_1.exe" } ;
+			return { "quickjs",quickjs_ng::win64ExeName() } ;
 		}else{
-			return { "quickjs","qjs-windows-x86_1.exe" } ;
+			return { "quickjs",quickjs_ng::win32ExeName() } ;
 		}
 	}else{
 		if( cpu.x86_64() ){
@@ -175,4 +173,21 @@ quickjs_ng::~quickjs_ng()
 quickjs_ng::quickjs_ng( const engines& e,const engines::engine& s,QJsonObject& ) :
 	engines::engine::baseEngine( e.Settings(),s,e.processEnvironment() )
 {
+}
+
+QString quickjs_ng::exeName( const QString& e )
+{
+	auto m = e ;
+
+	return m.replace( "_1","" ) ;
+}
+
+utils::misc::string quickjs_ng::win32ExeName()
+{
+	return "qjs-windows-x86_1.exe" ;
+}
+
+utils::misc::string quickjs_ng::win64ExeName()
+{
+	return "qjs-windows-x86_64_1.exe" ;
 }
