@@ -493,7 +493,7 @@ namespace utility
 		bool m_pretend32Bit         = false ;
 		bool m_pretendWindows7      = false ;
 		bool m_pretendLegacyWindows = false ;
-		bool m_pretendModernWindows = false;
+		bool m_pretendModernWindows = false ;
 	} ;
 
 	class OperatingSystemVersion

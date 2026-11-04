@@ -2380,7 +2380,12 @@ bool utility::CPU::x86_32() const
 
 bool utility::CPU::x86_64() const
 {
-	return m_cpu == "x86_64" ;
+	if( utility::local::pretendPlatform().is32Bit() ){
+
+		return false ;
+	}else{
+		return m_cpu == "x86_64" ;
+	}
 }
 
 bool utility::CPU::aarch64() const
