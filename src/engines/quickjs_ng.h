@@ -31,7 +31,6 @@ public:
 	~quickjs_ng() override ;
 	quickjs_ng( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
-	static QString exeName( const QString& ) ;
 	static utils::misc::string win32ExeName() ;
 	static utils::misc::string win64ExeName() ;
 	static utility::addJsonCmd::entry::args entryCmd( const QString& ) ;

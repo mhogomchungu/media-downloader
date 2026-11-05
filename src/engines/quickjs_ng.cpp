@@ -53,15 +53,6 @@ void quickjs_ng::init( QJsonObject& mainObj,const engines::enginePaths& enginePa
 		QFile::remove( m ) ;
 	}
 
-	auto e = quickjs_ng::exeName( quickjs_ng::jsRuntime().exe() ) ;
-
-	auto exe = enginePath.binPath( e ) ;
-
-	if( QFile::exists( exe ) ){
-
-		QFile::remove( exe ) ;
-	}
-
 	utility::addJsonCmd json( mainObj ) ;
 
 	json.add( "Generic",quickjs_ng::entryCmd ) ;
@@ -76,20 +67,9 @@ void quickjs_ng::init( QJsonObject& mainObj,const engines::enginePaths& enginePa
 
 	mainObj.insert( "Version","1" ) ;
 
-	QString url = "https://api.github.com/repos/quickjs-ng/quickjs/releases/" ;
+	mainObj.insert( "DownloadUrl","https://api.github.com/repos/quickjs-ng/quickjs/releases/latest" ) ;
 
-	if( utility::platformIsAncientWindows() ){
-		/*
-		 * On windows7 and windows8, we stay with version 0.17.0
-		 */
-		mainObj.insert( "DownloadUrl",url + "391800367" ) ;
-
-		mainObj.insert( "DownloadUrlWin7",url + "391800367" ) ;
-	}else{
-		mainObj.insert( "DownloadUrl",url + "latest" ) ;
-
-		mainObj.insert( "DownloadUrlWin7",url + "latest" ) ;
-	}
+	mainObj.insert( "DownloadUrlWin7","https://api.github.com/repos/quickjs-ng/quickjs/releases/latest" ) ;
 
 	mainObj.insert( "AutoUpdate",true ) ;
 
@@ -137,7 +117,10 @@ QString quickjs_ng::parseVersionInfo( const utils::qprocess::outPut& e )
 
 bool quickjs_ng::foundNetworkUrl( const QString& s )
 {
-	return quickjs_ng::exeName( quickjs_ng::jsRuntime().exe() ) == s ;
+	/*
+	 * We always get the 32 bit version because the 64 bit has problems on 64 bit win7.
+	 */
+	return quickjs_ng::win32ExeName().data() == s ;
 }
 
 engines::engine::jsRuntimeInstalled::engine quickjs_ng::jsRuntime()
@@ -175,19 +158,12 @@ quickjs_ng::quickjs_ng( const engines& e,const engines::engine& s,QJsonObject& )
 {
 }
 
-QString quickjs_ng::exeName( const QString& e )
-{
-	auto m = e ;
-
-	return m.replace( "_1","" ) ;
-}
-
 utils::misc::string quickjs_ng::win32ExeName()
 {
-	return "qjs-windows-x86_1.exe" ;
+	return "qjs-windows-x86.exe" ;
 }
 
 utils::misc::string quickjs_ng::win64ExeName()
 {
-	return "qjs-windows-x86_64_1.exe" ;
+	return "qjs-windows-x86_64.exe" ;
 }
