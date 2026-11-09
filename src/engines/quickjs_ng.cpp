@@ -120,7 +120,7 @@ bool quickjs_ng::foundNetworkUrl( const QString& s )
 	/*
 	 * We always get the 32 bit version because the 64 bit has problems on 64 bit win7.
 	 */
-	return quickjs_ng::win32ExeName().data() == s ;
+	return quickjs_ng::win32ExeName() == s ;
 }
 
 engines::engine::jsRuntimeInstalled::engine quickjs_ng::jsRuntime()

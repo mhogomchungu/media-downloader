@@ -292,6 +292,37 @@ void networkAccess::emDownloader1( networkAccess::updateMDOptions md,const utils
 		class meaw
 		{
 		public:
+			class error : public utility::FileSystemErrorReporter
+			{
+			public:
+				error()
+				{
+				}
+				void report( const QStringList& e ) override
+				{
+					auto& grandParent = m_parent->m_parent ;
+
+					const auto& name = m_parent->m_md.name ;
+
+					const auto& path1 = m_parent->m_extractedPath ;
+
+					const auto& path2 = m_parent->m_md.finalPath ;
+
+					auto id = m_parent->m_md.id ;
+
+					for( const auto& it : e ){
+
+						grandParent.failedToRename( name,path1,path2,it,id ) ;
+
+					}
+				}
+				void setParent( meaw * p )
+				{
+					m_parent = p ;
+				}
+			private:
+				meaw * m_parent ;
+			} ;
 			meaw( networkAccess::updateMDOptions m,const networkAccess& n ) :
 				m_md( m.move() ),m_parent( n )
 			{
@@ -299,12 +330,9 @@ void networkAccess::emDownloader1( networkAccess::updateMDOptions md,const utils
 
 				m_extractedPath = m_md.tmpPath + "/" + mm.mid( 0,mm.size() - 4 ) ;
 			}
-			void logError( int i )
+			const QString& errMsg()
 			{
-				if( i == this->retries() ){
-
-					m_parent.failedToRename( m_md.name,m_extractedPath,m_md.finalPath,m_status,m_md.id ) ;
-				}
+				return m_status ;
 			}
 			bool bg()
 			{
@@ -331,15 +359,20 @@ void networkAccess::emDownloader1( networkAccess::updateMDOptions md,const utils
 					m_md.status.done() ;
 				}
 			}
-			int retries()
+			void set()
 			{
-				return 5 ;
+				m_error.setParent( this ) ;
+			}
+			utility::FileSystemErrorReporter& errReporter()
+			{
+				return m_error ;
 			}
 		private:
 			QString m_status ;
 			networkAccess::updateMDOptions m_md ;
 			const networkAccess& m_parent ;
 			QString m_extractedPath ;
+			error m_error ;
 		} ;
 
 		utility::fileSystemAction( meaw( md.move(),*this ) ) ;
@@ -355,6 +388,35 @@ void networkAccess::emDownloader( networkAccess::updateMDOptions md,const utils:
 	class meaw
 	{
 	public:
+		class error : public utility::FileSystemErrorReporter
+		{
+		public:
+			error()
+			{
+			}
+			void report( const QStringList& e ) override
+			{
+				auto& grandParent = m_parent->m_parent ;
+
+				const auto& name = grandParent.m_appName ;
+
+				const auto& path = m_parent->m_md.tmpFile ;
+
+				auto id = m_parent->m_md.id ;
+
+				for( const auto& it : e ){
+
+					grandParent.failedToRemove( name,path,it,id ) ;
+
+				}
+			}
+			void setParent( meaw * p )
+			{
+				m_parent = p ;
+			}
+		private:
+			meaw * m_parent ;
+		} ;
 		meaw( networkAccess::updateMDOptions m,const utils::qprocess::outPut& s,const networkAccess& n ) :
 			m_md( m.move() ),m_outPut( s ),m_parent( n )
 		{
@@ -365,26 +427,28 @@ void networkAccess::emDownloader( networkAccess::updateMDOptions md,const utils:
 
 			return m_status.isEmpty() ;
 		}
-		void logError( int i )
+		const QString& errMsg()
 		{
-			if( i == this->retries() ){
-
-				m_parent.failedToRemove( m_parent.m_appName,m_md.tmpFile,m_status,m_md.id ) ;
-			}
+			return m_status ;
 		}
 		void fg()
 		{
 			m_parent.emDownloader1( m_md.move(),m_outPut ) ;
 		}
-		int retries()
+		void set()
 		{
-			return 5 ;
+			m_error.setParent( this ) ;
+		}
+		utility::FileSystemErrorReporter& errReporter()
+		{
+			return m_error ;
 		}
 	private:
 		QString m_status ;
 		networkAccess::updateMDOptions m_md ;
 		utils::qprocess::outPut m_outPut ;
 		const networkAccess& m_parent ;
+		error m_error ;
 	} ;
 
 	utility::fileSystemAction( meaw( md.move(),s,*this ) ) ;
@@ -456,6 +520,34 @@ void networkAccess::extractMediaDownloader( networkAccess::updateMDOptions md ) 
 	class meaw
 	{
 	public:
+		class error : public utility::FileSystemErrorReporter
+		{
+		public:
+			error()
+			{
+			}
+			void report( const QStringList& e ) override
+			{
+				auto& grandParent = m_parent->m_parent ;
+
+				const auto& name = grandParent.m_appName ;
+
+				const auto& path = m_parent->m_md.finalPath ;
+
+				auto id = m_parent->m_md.id ;
+
+				for( const auto& it : e ){
+
+					grandParent.failedToRemove( name,path,it,id ) ;
+				}
+			}
+			void setParent( meaw * p )
+			{
+				m_parent = p ;
+			}
+		private:
+			meaw * m_parent ;
+		} ;
 		meaw( const networkAccess& na,networkAccess::updateMDOptions md ) :
 			m_parent( na ),m_md( md.move() )
 		{
@@ -466,12 +558,9 @@ void networkAccess::extractMediaDownloader( networkAccess::updateMDOptions md ) 
 
 			return m_status.isEmpty() ;
 		}
-		void logError( int i )
+		const QString& errMsg()
 		{
-			if( i == this->retries() ){
-
-				m_parent.failedToRemove( m_parent.m_appName,m_md.finalPath,m_status,m_md.id ) ;
-			}
+			return m_status ;
 		}
 		void fg()
 		{
@@ -485,14 +574,19 @@ void networkAccess::extractMediaDownloader( networkAccess::updateMDOptions md ) 
 
 			utils::qprocess::run( exe,args,m,m_md.move(),&m_parent,&networkAccess::emDownloader ) ;
 		}
-		int retries()
+		void set()
 		{
-			return 5 ;
+			m_error.setParent( this ) ;
+		}
+		utility::FileSystemErrorReporter& errReporter()
+		{
+			return m_error ;
 		}
 	private:
 		QString m_status ;
 		const networkAccess& m_parent ;
 		networkAccess::updateMDOptions m_md ;
+		error m_error ;
 	} ;
 
 	utility::fileSystemAction( meaw( *this,md.move() ) ) ;
@@ -808,6 +902,91 @@ void networkAccess::finished( networkAccess::Opts opts ) const
 	}
 }
 
+void networkAccess::extractArchiveOuput1( networkAccess::Opts opts ) const
+{
+	class meaw
+	{
+	public:
+		class error : public utility::FileSystemErrorReporter
+		{
+		public:
+			error()
+			{
+			}
+			void report( const QStringList& e ) override
+			{
+				auto& grandParent = m_parent->m_parent ;
+
+				const auto& status = m_parent->m_status ;
+
+				auto id = m_parent->m_opts.id ;
+
+				const auto& name = m_parent->m_engine.name() ;
+
+				for( const auto& it : e ){
+
+					grandParent.failedToRename( name,status.src(),status.dst(),it,id ) ;
+
+				}
+			}
+			void setParent( meaw * p )
+			{
+				m_parent = p ;
+			}
+		private:
+			meaw * m_parent ;
+		} ;
+
+		meaw( networkAccess::Opts opts,const networkAccess& parent ) :
+			m_opts( opts.move() ),
+			m_engine( m_opts.engine() ),
+			m_parent( parent )
+		{
+		}
+		bool bg()
+		{
+			m_status = m_engine.renameArchiveFolder( m_opts.filePath,m_opts.tempPath ) ;
+
+			return m_status.success() ;
+		}
+		void set()
+		{
+			m_errors.setParent( this ) ;
+		}
+		const QString& errMsg()
+		{
+			return m_status.err() ;
+		}
+		utility::FileSystemErrorReporter& errReporter()
+		{
+			return m_errors ;
+		}
+		void fg()
+		{
+			if( m_status.success() ){
+
+				auto exe = m_engine.updateCmdPath( m_parent.m_ctx.logger(),m_opts.tempPath ) ;
+
+				QFile f( exe ) ;
+
+				f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+			}else{
+				m_engine.setBroken() ;
+			}
+
+			m_parent.printVersion( m_opts.move(),true ) ;
+		}
+	private:
+		networkAccess::Opts m_opts ;
+		const engines::engine& m_engine ;
+		const networkAccess& m_parent ;
+		engines::engine::baseEngine::renameArchiveFolderStatus m_status ;
+		error m_errors ;
+	} ;
+
+	utility::fileSystemAction( meaw( opts.move(),*this ) ) ;
+}
+
 void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 					 const utils::qprocess::outPut& s ) const
 {
@@ -824,55 +1003,7 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 
 		if( engine.archiveContainsFolder() ){
 
-			class meaw
-			{
-			public:
-				meaw( networkAccess::Opts opts,const networkAccess& parent ) :
-					m_opts( opts.move() ),
-					m_engine( m_opts.engine() ),
-					m_parent( parent )
-				{
-				}
-				bool bg()
-				{
-					m_status = m_engine.renameArchiveFolder( m_opts.filePath,m_opts.tempPath ) ;
-
-					return m_status.success() ;
-				}
-				void logError( int i )
-				{
-					if( i == this->retries() ){
-
-						m_parent.failedToRename( m_engine.name(),m_status.src(),m_status.dst(),m_status.err(),m_opts.id ) ;
-					}
-				}
-				void fg()
-				{
-					if( m_status.success() ){
-
-						auto exe = m_engine.updateCmdPath( m_parent.m_ctx.logger(),m_opts.tempPath ) ;
-
-						QFile f( exe ) ;
-
-						f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
-					}else{
-						m_engine.setBroken() ;
-					}
-
-					m_parent.printVersion( m_opts.move(),true ) ;
-				}
-				int retries()
-				{
-					return 5 ;
-				}
-			private:
-				networkAccess::Opts m_opts ;
-				const engines::engine& m_engine ;
-				const networkAccess& m_parent ;
-				engines::engine::baseEngine::renameArchiveFolderStatus m_status ;
-			} ;
-
-			utility::fileSystemAction( meaw( opts.move(),*this ) ) ;
+			this->extractArchiveOuput1( opts.move() ) ;
 		}else{
 			QFile f( opts.exeBinPath ) ;
 
@@ -991,6 +1122,35 @@ void networkAccess::extractArchive( networkAccess::Opts opts ) const
 		class meaw
 		{
 		public:
+			class error : public utility::FileSystemErrorReporter
+			{
+			public:
+				error()
+				{
+				}
+				void report( const QStringList& e ) override
+				{
+					auto& grandParent = m_parent->m_parent ;
+
+					auto& opts = m_parent->m_opts ;
+
+					const auto& path = m_parent->m_status.path() ;
+
+					for( const auto& it : e ){
+
+						engines::engine::baseEngine::removeFilesStatus m( path,it ) ;
+
+						grandParent.failedToRemove( opts.engine().name(),m,opts.id ) ;
+
+					}
+				}
+				void setParent( meaw * p )
+				{
+					m_parent = p ;
+				}
+			private:
+				meaw * m_parent ;
+			} ;
 			meaw( networkAccess::Opts opts,const networkAccess& n ) :
 				m_opts( opts.move() ),
 				m_parent( n )
@@ -1000,29 +1160,29 @@ void networkAccess::extractArchive( networkAccess::Opts opts ) const
 			{
 				m_status = m_opts.engine().deleteEngineBinFolder( m_opts.tempPath ) ;
 
-				return m_status.isEmpty() ;
+				return m_status.success() ;
 			}
-			void logError( int i )
+			const QString& errMsg()
 			{
-				if( i == this->retries() ){
-
-					auto s = QObject::tr( "Trouble Ahead, Failed To Delete Folder: %1" ).arg( m_status ) ;
-
-					m_parent.post( m_opts.engine().name(),s,m_opts.id ) ;
-				}
+				return m_status.error() ;
 			}
 			void fg()
 			{
 				m_parent.extractArchive1( m_opts.move() ) ;
 			}
-			int retries()
+			void set()
 			{
-				return 5 ;
+				m_error.setParent( this ) ;
+			}
+			utility::FileSystemErrorReporter& errReporter()
+			{
+				return m_error ;
 			}
 		private:
-			QString m_status ;
+			engines::engine::baseEngine::removeFoldersStatus m_status ;
 			networkAccess::Opts m_opts ;
 			const networkAccess& m_parent ;
+			error m_error ;
 		} ;
 
 		utility::fileSystemAction( meaw( opts.move(),*this ) ) ;

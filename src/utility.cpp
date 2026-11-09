@@ -269,6 +269,25 @@ static QStringList listOptionsFromDownloadOptions( const QString& e )
 
 }
 
+int utility::FileSystemErrorReporter::retries()
+{
+	return 5 ;
+}
+
+void utility::FileSystemErrorReporter::addError( const QString& e,int s )
+{
+	m_errors.append( e ) ;
+
+	if( s == this->retries() ){
+
+		this->report( m_errors ) ;
+	}
+}
+
+utility::FileSystemErrorReporter::~FileSystemErrorReporter()
+{
+}
+
 utility::OperatingSystemVersion::OperatingSystemVersion()
 {
 #ifdef Q_OS_WIN

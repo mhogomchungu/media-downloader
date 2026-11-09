@@ -1243,6 +1243,17 @@ namespace utility
 	private:
 	} ;
 
+	class FileSystemErrorReporter
+	{
+	public:
+		virtual int retries() ;
+		void addError( const QString& e,int s ) ;
+		virtual void report( const QStringList& ) = 0 ;
+		virtual ~FileSystemErrorReporter();
+	private:
+		QStringList m_errors ;
+	} ;
+
 	template< typename Action >
 	void fileSystemAction( Action ac )
 	{
@@ -1268,11 +1279,19 @@ namespace utility
 				}
 				void logError( int s ) override
 				{
-					m_ac.logError( s ) ;
+					m_ac.errReporter().addError( m_ac.errMsg(),s ) ;
 				}
 				int retries()
 				{
-					return m_ac.retries() ;
+					return m_ac.errReporter().retries() ;
+				}
+				void set()
+				{
+					m_ac.set() ;
+				}
+				const QString& errMsg()
+				{
+					m_ac.errMsg() ;
 				}
 			private:
 				Action m_ac ;
@@ -1281,6 +1300,7 @@ namespace utility
 			meaw( Action ac ) :
 				m_actions( std::make_unique< fsAction >( std::move( ac ) ) )
 			{
+				m_actions->set() ;
 			}
 			void bg()
 			{

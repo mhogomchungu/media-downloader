@@ -583,6 +583,7 @@ private:
 	void emDownloader1( networkAccess::updateMDOptions,const utils::qprocess::outPut& ) const ;
 	void emDownloader( networkAccess::updateMDOptions,const utils::qprocess::outPut& ) const ;
 	void extractArchiveOuput( networkAccess::Opts,const utils::qprocess::outPut& ) const ;
+	void extractArchiveOuput1( networkAccess::Opts ) const ;
 
 	void postStartDownloading( const QString&,int ) const ;
 	void postDownloading( const QString&,const QString&,int ) const ;

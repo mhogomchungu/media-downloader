@@ -1766,7 +1766,7 @@ engines::engine::baseEngine::DataFilter engines::engine::baseEngine::Filter( int
 	return { util::types::type_identity< engines::engine::baseEngine::filter >(),m_engine,id } ;
 }
 
-QString engines::engine::baseEngine::deleteEngineBinFolder( const QString& e )
+engines::engine::baseEngine::removeFoldersStatus engines::engine::baseEngine::deleteEngineBinFolder( const QString& e )
 {
 	auto m = e + "/" + m_engine.name() ;
 
@@ -1774,9 +1774,9 @@ QString engines::engine::baseEngine::deleteEngineBinFolder( const QString& e )
 
 	if( dir.exists() && !dir.removeRecursively() ){
 
-		return m ;
+		return { m,utility::errorMessage() } ;
 	}else{
-		return {} ;
+		return { m } ;
 	}
 }
 

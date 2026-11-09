@@ -878,8 +878,6 @@ public:
 
 			virtual engines::engine::baseEngine::DataFilter Filter( int ) ;
 
-			virtual QString deleteEngineBinFolder( const QString& ) ;
-
 			virtual void runCommandOnDownloadedFile( const std::vector< QByteArray >& ) ;
 
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
@@ -899,6 +897,38 @@ public:
 			virtual void checkExePath( const QString& ) ;
 
 			virtual const QByteArray& replaceUndesirableText( const QByteArray& ) ;
+
+			class removeFoldersStatus
+			{
+			public:
+				removeFoldersStatus( QString p,QString err ) :
+					m_path( std::move( p ) ),m_error( std::move( err ) )
+				{
+				}
+				removeFoldersStatus( QString p ) : m_path( std::move( p ) )
+				{
+				}
+				removeFoldersStatus()
+				{
+				}
+				bool success() const
+				{
+					return m_error.isEmpty() ;
+				}
+				const QString& path() const
+				{
+					return m_path ;
+				}
+				const QString& error() const
+				{
+					return m_error ;
+				}
+			private:
+				QString m_path ;
+				QString m_error ;
+			} ;
+
+			virtual engines::engine::baseEngine::removeFoldersStatus deleteEngineBinFolder( const QString& ) ;
 
 			class removeFilesStatus
 			{
@@ -1437,7 +1467,7 @@ public:
 		{
 			return m_archiveContainsFolder ;
 		}
-		QString deleteEngineBinFolder( const QString& e ) const
+		engines::engine::baseEngine::removeFoldersStatus deleteEngineBinFolder( const QString& e ) const
 		{
 			return m_engine->deleteEngineBinFolder( e ) ;
 		}
