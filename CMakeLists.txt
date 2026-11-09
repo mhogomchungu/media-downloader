@@ -238,6 +238,9 @@ VersionInfoProductName={#MyAppName}
 VersionInfoVersion={#MyAppVersion}.0
 UninstallDisplayName={#MyAppName}
 UninstallDisplayIcon={app}\\{#MyAppExeName}
+ShowLanguageDialog=yes
+UsePreviousLanguage=no
+WizardStyle=modern
 
 DefaultDirName={pf64}\\{#MyAppName}
 LicenseFile={#MySourcesPath}\\LICENSE.txt
@@ -304,6 +307,16 @@ Name: \"slovenian\"           ; MessagesFile: \"compiler:Languages\\Slovenian.is
 Name: \"spanish\"             ; MessagesFile: \"compiler:Languages\\Spanish.isl\"
 Name: \"turkish\"             ; MessagesFile: \"compiler:Languages\\Turkish.isl\"
 Name: \"ukrainian\"           ; MessagesFile: \"compiler:Languages\\Ukrainian.isl\"
+
+[CustomMessages]
+italian.NameAndVersion=%1 %2
+italian.LaunchProgram=Esegui %1
+italian.AdditionalIcons=Collegamenti:
+italian.CreateDesktopIcon=Crea collegamento programma sul &desktop
+italian.CreateQuickLaunchIcon=Crea collegamento programma nella &barra 'Avvio veloce'
+italian.AssocFileExtension=&Associa i file con estensione '%2' a '%1'
+italian.AssocingFileExtension=Associazione file con estensione '%2' a '%1'...
+
 ")
 
 else()
@@ -340,6 +353,9 @@ VersionInfoProductName={#MyAppName}
 VersionInfoVersion={#MyAppVersion}.0
 UninstallDisplayName={#MyAppName}
 UninstallDisplayIcon={app}\\{#MyAppExeName}
+ShowLanguageDialog=yes
+UsePreviousLanguage=no
+WizardStyle=modern
 
 DefaultDirName={pf}\\{#MyAppName}
 LicenseFile={#MySourcesPath}\\LICENSE.txt
@@ -404,6 +420,16 @@ Name: \"slovenian\"           ; MessagesFile: \"compiler:Languages\\Slovenian.is
 Name: \"spanish\"             ; MessagesFile: \"compiler:Languages\\Spanish.isl\"
 Name: \"turkish\"             ; MessagesFile: \"compiler:Languages\\Turkish.isl\"
 Name: \"ukrainian\"           ; MessagesFile: \"compiler:Languages\\Ukrainian.isl\"
+
+[CustomMessages]
+italian.NameAndVersion=%1 %2
+italian.LaunchProgram=Esegui %1
+italian.AdditionalIcons=Collegamenti:
+italian.CreateDesktopIcon=Crea collegamento programma sul &desktop
+italian.CreateQuickLaunchIcon=Crea collegamento programma nella &barra 'Avvio veloce'
+italian.AssocFileExtension=&Associa i file con estensione '%2' a '%1'
+italian.AssocingFileExtension=Associazione file con estensione '%2' a '%1'...
+
 ")
 
 endif()
