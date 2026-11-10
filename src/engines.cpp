@@ -1115,18 +1115,13 @@ void engines::engine::parseMultipleCmdArgs( Logger& logger,
 
 	if( this->supportingEngine() ){
 
-		if( m_parent.m_settings.useSystemSupportingEngine() ){
+		auto e = m_parent.m_settings.useSystemSupportingEngine() ;
 
-			m = engines.findExecutable( m_commandName,false ) ;
-		}else{
-			m = engines.findExecutable( m_commandName,true ) ;
-		}
-
-	}else if( m_parent.m_settings.useSystemEngine() ){
-
-		m = engines.findExecutable( m_commandName,false ) ;
+		m = engines.findExecutable( m_commandName,e ) ;
 	}else{
-		m = engines.findExecutable( m_commandName,true ) ;
+		auto e = m_parent.m_settings.useSystemEngine() ;
+
+		m = engines.findExecutable( m_commandName,e ) ;
 	}
 
 	if( m.isEmpty() ){
