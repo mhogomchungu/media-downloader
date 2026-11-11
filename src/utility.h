@@ -1291,7 +1291,7 @@ namespace utility
 				}
 				const QString& errMsg()
 				{
-					m_ac.errMsg() ;
+					return m_ac.errMsg() ;
 				}
 			private:
 				Action m_ac ;
