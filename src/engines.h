@@ -1700,7 +1700,7 @@ public:
 		{
 			return m_broken ;
 		}
-		void setJsRuntime() ;
+		void setJsRuntime( const QString& ) ;
 	private:
 		std::unique_ptr< engines::engine::baseEngine > setEngine( const engines& ) ;
 		QJsonObject getOpts( const util::Json&,settings& ) const ;
@@ -1804,6 +1804,8 @@ public:
 	void openUrls( const QString& path ) const ;
 	const QString& defaultEngineName() const ;
 	void setJsRuntime() ;
+	QString ffmpegPath() const ;
+
 	class EnginesList
 	{
 	public:

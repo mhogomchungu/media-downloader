@@ -235,11 +235,26 @@ const QString& engines::defaultEngineName() const
 
 void engines::setJsRuntime()
 {
+	auto m = this->ffmpegPath() ;
+
 	for( auto& it : m_backends ){
 
-		it.setJsRuntime() ;
+		it.setJsRuntime( m ) ;
 	}
 }
+
+QString engines::ffmpegPath() const
+{
+	for( const auto& it : m_backends ){
+
+		if( it.name() == "ffmpeg" ){
+
+			return it.exePath().realExe() ;
+		}
+	}
+
+	return {} ;
+ }
 
 engines::EnginesList::engine engines::getEngineByPath( const QString& e ) const
 {
@@ -456,7 +471,7 @@ bool engines::engineAdd( const QString& jsonFile,engines::EnginesList::engine m,
 
 			m_logger.add( s.arg( m->name() ),id ) ;
 		}else{
-			m->setJsRuntime() ;
+			m->setJsRuntime( this->ffmpegPath() ) ;
 			m_backends.add( m.move() ) ;
 
 			return true ;
@@ -486,7 +501,9 @@ void engines::removeEngineFromList( const QString& name,int )
 
 void engines::updateEngines( int id )
 {
-	const auto mm = this->enginesList() ;	
+	const auto mm = this->enginesList() ;
+
+	this->engineAdd( this->getSupportingEngineByName( "ffmpeg" ),id ) ;
 
 	for( const auto& it : mm ){
 
@@ -518,8 +535,6 @@ void engines::updateEngines( int id )
 
 		}
 	}
-
-	this->engineAdd( this->getSupportingEngineByName( "ffmpeg" ),id ) ;
 
 	if( you_get::installed( m_enginePaths ) ){
 
@@ -607,14 +622,6 @@ bool engines::filePathIsValid( const QFileInfo& info )
 QString engines::findExecutable( const QString& exeName,const QStringList& paths,bool fromBeginning ) const
 {
 	QFileInfo info( exeName ) ;
-
-	if( utility::platformIsWindows() ){
-
-		if( exeName == "ffmpeg.exe" || exeName == "python.exe" ){
-
-			fromBeginning = false ;
-		}
-	}
 
 	if( fromBeginning ){
 
@@ -843,7 +850,7 @@ QStringList engines::engine::toStringList( const QJsonValue& value,bool protectS
 	return m ;
 }
 
-void engines::engine::setJsRuntime()
+void engines::engine::setJsRuntime( const QString& e )
 {
 	if( m_extraArguments.isEmpty() && m_likeYtDlp ){
 
@@ -859,6 +866,12 @@ void engines::engine::setJsRuntime()
 			m_extraArguments.append( "--js-runtimes" ) ;
 
 			m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
+		}
+
+		if( !e.isEmpty() ){
+
+			m_extraArguments.append( "--ffmpeg-location" ) ;
+			m_extraArguments.append( e ) ;
 		}
 	}
 }
@@ -2850,7 +2863,7 @@ engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e )
 
 		auto m = engines::engine::jsRuntimeInstalled::makeRuntimeList( deno ) ;
 
-		this->search( e,m,!e.Settings().useSystemSupportingEngine() ) ;
+		this->search( e,m,e.Settings().useSystemSupportingEngine() ) ;
 	}else{		
 		auto quickjs = quickjs_ng::jsRuntime() ;
 
@@ -2858,7 +2871,7 @@ engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e )
 
 		auto m = engines::engine::jsRuntimeInstalled::makeRuntimeList( deno,node,quickjs ) ;
 
-		this->search( e,m,!e.Settings().useSystemSupportingEngine() ) ;
+		this->search( e,m,e.Settings().useSystemSupportingEngine() ) ;
 	}
 }
 
@@ -2870,13 +2883,13 @@ engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e,const 
 
 		auto m = engines::engine::jsRuntimeInstalled::makeRuntimeList( quickjs ) ;
 
-		this->search( e,m,!e.Settings().useSystemSupportingEngine() ) ;
+		this->search( e,m,e.Settings().useSystemSupportingEngine() ) ;
 	}else{
 		auto a = engines::engine::jsRuntimeInstalled::engine( s ) ;
 
 		auto m = engines::engine::jsRuntimeInstalled::makeRuntimeList( a ) ;
 
-		this->search( e,m,!e.Settings().useSystemSupportingEngine() ) ;
+		this->search( e,m,e.Settings().useSystemSupportingEngine() ) ;
 	}
 }
 
