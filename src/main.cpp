@@ -73,7 +73,6 @@ int start( int argc,char * argv[],
 		mqApp.setDesktopFileName( "media-downloader" ) ;
 	}
 #endif
-
 	ss.setTheme( mqApp,paths.themePath() ) ;
 
 	const auto& args = cargs.arguments() ;
@@ -103,13 +102,9 @@ int main( int argc,char * argv[] )
 {
 	utility::cliArguments cargs( argc,argv ) ;
 
-	utility::PretendPlatform pretendPlatform( cargs.arguments() ) ;
+	utility::platForms platforms( cargs.arguments() ) ;
 
-	utility::setPlatForms( pretendPlatform ) ;
-
-	utility::SysPlatForm sysPlatform ;
-
-	utility::setPlatForms( sysPlatform ) ;
+	platforms.init() ;
 
 	if( utility::onlyWantedVersionInfo( cargs ) ){
 

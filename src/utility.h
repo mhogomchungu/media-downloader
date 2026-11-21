@@ -544,7 +544,6 @@ namespace utility
 			auto c = QString::number( m_patch ) ;
 
 			return a + "." + b + "." + c ;
-
 		}
 	private:
 		int m_major = 0 ;
@@ -627,8 +626,33 @@ namespace utility
 		bool m_isModernWindows  = false ;
 	} ;
 
-	void setPlatForms( const utility::PretendPlatform& ) ;
-	void setPlatForms( const utility::SysPlatForm& ) ;
+	class platForms
+	{
+	public:
+		platForms( const QStringList& m ) : m_pretendPlatform( m )
+		{
+		}
+		const utility::PretendPlatform& pretendPlatform() const
+		{
+			return m_pretendPlatform ;
+		}
+		const utility::SysPlatForm& systemPlatform() const
+		{
+			return m_systemPlatform ;
+		}
+		void init()
+		{
+			m_platForms = this ;
+		}
+		static const utility::platForms& get()
+		{
+			return *m_platForms ;
+		}
+	private:
+		utility::PretendPlatform m_pretendPlatform ;
+		utility::SysPlatForm m_systemPlatform ;
+		static utility::platForms * m_platForms ;
+	} ;
 
 	class cliArguments
 	{

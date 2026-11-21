@@ -46,23 +46,23 @@
 
 namespace utility
 {
+
+platForms * platForms::m_platForms = nullptr ;
+
 namespace local
 {
 
 static bool useFakeHash ;
 static bool cliArguments_debug ;
 
-static const PretendPlatform * PretendPlatform ;
-static const SysPlatForm * SysPlatform ;
-
 const utility::SysPlatForm& Platform()
 {
-	return *utility::local::SysPlatform ;
+	return utility::platForms::get().systemPlatform() ;
 }
 
 const utility::PretendPlatform& pretendPlatform()
 {
-	return *utility::local::PretendPlatform ;
+	return utility::platForms::get().pretendPlatform() ;
 }
 
 static QString downloadPath()
@@ -312,16 +312,6 @@ QStringList utility::dirEntries( const QString& e )
 	auto filters = QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
 
 	return QDir( e ).entryList( filters ) ;
-}
-
-void utility::setPlatForms( const utility::PretendPlatform& p )
-{
-	utility::local::PretendPlatform = &p ;
-}
-
-void utility::setPlatForms( const utility::SysPlatForm& s )
-{
-	utility::local::SysPlatform = &s ;
 }
 
 QString utility::SysPlatForm::errorMessage() const
