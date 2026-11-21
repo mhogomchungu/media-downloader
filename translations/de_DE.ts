@@ -760,7 +760,7 @@ Beispiel 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Download Failed</source>
-        <translation>Download fehlgeschlagen </translation>
+        <translation>Download fehlgeschlagen</translation>
     </message>
     <message>
         <source>Failed to parse json file from github</source>
@@ -1402,7 +1402,7 @@ Beispiel 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Copy Url</source>
-        <translation>Kopiere Url</translation>
+        <translation>URL kopieren</translation>
     </message>
     <message>
         <source>Show Comments</source>
