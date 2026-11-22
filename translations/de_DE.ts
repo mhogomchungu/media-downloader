@@ -540,7 +540,7 @@ Beispiel 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
-        <translation>Dieses Programm ist freie Software; Sie können es unter den Bedingungen der GNU General Public License, wie sie von der Free Software Foundation veröffentlicht wurde, weitergeben und/oder modifizieren; entweder unter Version 2 der Lizenz oder (nach Ihrer Wahl) einer späteren Version.</translation>
+        <translation>Dieses Programm ist freie Software; Du kannst es unter den Bedingungen der GNU General Public License, wie sie von der Free Software Foundation veröffentlicht wurde, weitergeben und/oder modifizieren; entweder unter Version 2 der Lizenz oder (nach Ihrer Wahl) einer späteren Version.</translation>
     </message>
     <message>
         <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
@@ -608,7 +608,7 @@ Beispiel 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>To Disable These Checks, Do The Following:-</source>
-        <translation>Um diese Prüfungen zu deaktivieren, gehen Sie wie folgt vor:-</translation>
+        <translation>Um diese Prüfungen zu deaktivieren, gehe wie folgt vor:-</translation>
     </message>
     <message>
         <source>1. Go To "Configure" Tab.</source>
@@ -724,7 +724,7 @@ Beispiel 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Failed to find version information, make sure "%1" is installed and works properly</source>
-        <translation>Es konnten keine Versionsinformationen gefunden werden, stellen Sie sicher, dass "%1" installiert ist und ordnungsgemäß funktioniert</translation>
+        <translation>Es konnten keine Versionsinformationen gefunden werden, stelle sicher, dass "%1" installiert ist und ordnungsgemäß funktioniert</translation>
     </message>
     <message>
         <source>Found version</source>
@@ -1194,7 +1194,7 @@ Beispiel 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Copy Url</source>
-        <translation>Kopiere Url</translation>
+        <translation>URL kopieren</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1210,7 +1210,7 @@ Beispiel 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Show Media Options</source>
-        <translation>Zeige Medienoptionen</translation>
+        <translation>Medienoptionen anzeigen</translation>
     </message>
     <message>
         <source>Download Media Part</source>
@@ -1406,7 +1406,7 @@ Beispiel 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Show Comments</source>
-        <translation>Zeige Kommentare</translation>
+        <translation>Kommentare anzeigen</translation>
     </message>
     <message>
         <source>Show All Updated</source>
