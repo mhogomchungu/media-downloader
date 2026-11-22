@@ -29,7 +29,7 @@
     </message>
     <message>
         <source>Quit</source>
-        <translation>Verlassen</translation>
+        <translation>Komplett beenden</translation>
     </message>
     <message>
         <source>Format Code</source>
