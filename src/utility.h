@@ -631,27 +631,25 @@ namespace utility
 	public:
 		platForms( const QStringList& m ) : m_pretendPlatform( m )
 		{
+			m_pointerretendPlatform = &m_pretendPlatform ;
+
+			m_systemPlatform = std::make_unique< utility::SysPlatForm >() ;
+
+			m_pointerSystemPlatform = m_systemPlatform.get() ;
 		}
-		const utility::PretendPlatform& pretendPlatform() const
+		static const utility::PretendPlatform& pretendPlatform()
 		{
-			return m_pretendPlatform ;
+			return *m_pointerretendPlatform ;
 		}
-		const utility::SysPlatForm& systemPlatform() const
+		static const utility::SysPlatForm& systemPlatform()
 		{
-			return m_systemPlatform ;
-		}
-		void init()
-		{
-			m_platForms = this ;
-		}
-		static const utility::platForms& get()
-		{
-			return *m_platForms ;
+			return *m_pointerSystemPlatform ;
 		}
 	private:
 		utility::PretendPlatform m_pretendPlatform ;
-		utility::SysPlatForm m_systemPlatform ;
-		static utility::platForms * m_platForms ;
+		std::unique_ptr< utility::SysPlatForm > m_systemPlatform ;
+		static utility::PretendPlatform * m_pointerretendPlatform ;
+		static utility::SysPlatForm * m_pointerSystemPlatform ;
 	} ;
 
 	class cliArguments

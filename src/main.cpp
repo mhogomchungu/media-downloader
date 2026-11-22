@@ -24,6 +24,8 @@
 #include "utils/single_instance.hpp"
 #include "engines/tests.h"
 
+#include <utility>
+
 class myApp
 {
 public:
@@ -103,8 +105,6 @@ int main( int argc,char * argv[] )
 	utility::cliArguments cargs( argc,argv ) ;
 
 	utility::platForms platforms( cargs.arguments() ) ;
-
-	platforms.init() ;
 
 	if( utility::onlyWantedVersionInfo( cargs ) ){
 

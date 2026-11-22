@@ -47,7 +47,8 @@
 namespace utility
 {
 
-platForms * platForms::m_platForms = nullptr ;
+PretendPlatform * platForms::m_pointerretendPlatform = nullptr ;
+SysPlatForm * platForms::m_pointerSystemPlatform = nullptr ;
 
 namespace local
 {
@@ -57,12 +58,12 @@ static bool cliArguments_debug ;
 
 const utility::SysPlatForm& Platform()
 {
-	return utility::platForms::get().systemPlatform() ;
+	return utility::platForms::systemPlatform() ;
 }
 
 const utility::PretendPlatform& pretendPlatform()
 {
-	return utility::platForms::get().pretendPlatform() ;
+	return utility::platForms::pretendPlatform() ;
 }
 
 static QString downloadPath()
