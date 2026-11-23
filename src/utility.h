@@ -69,7 +69,7 @@ namespace Ui
 namespace utility
 {
 	bool filenameTooLongError( const QByteArray& ) ;
-	QString promptForShortFileName( QWidget * ) ;
+	QString promptForShortFileName( QWidget *,const QByteArray& ) ;
 	QString shortFileNameTemplate( const QString& ) ;
 	void applyShortFileNameTemplate( QStringList&,const QString& ) ;
 	namespace impl

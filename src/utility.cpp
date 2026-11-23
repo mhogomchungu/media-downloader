@@ -36,9 +36,13 @@
 #include <QFile>
 #include <QDir>
 #include <QJsonDocument>
-#include <QInputDialog>
-#include <QMessageBox>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QRegularExpression>
+#include <QVBoxLayout>
 
 #include <ctime>
 #include <cstring>
@@ -57,26 +61,110 @@ bool filenameTooLongError( const QByteArray& output )
 	       output.contains( "WinError 206" ) ;
 }
 
-QString promptForShortFileName( QWidget * parent )
+static QString failedFileName( const QByteArray& output )
 {
-	for( ;; ){
-		bool accepted = false ;
-		auto name = QInputDialog::getText( parent,QObject::tr( "Filename Too Long" ),
-			QObject::tr( "Enter a shorter filename (without an extension):" ),
-			QLineEdit::Normal,QString(),&accepted ).trimmed() ;
+	const auto lines = QString::fromUtf8( output ).split( '\n' ) ;
 
-		if( !accepted ){
-			return {} ;
+	for( auto it = lines.crbegin() ; it != lines.crend() ; ++it ){
+		const auto& line = *it ;
+
+		if( !utility::filenameTooLongError( line.toUtf8() ) ){
+			continue ;
 		}
 
-		if( !name.isEmpty() && name.toUtf8().size() <= 150 &&
-		    !name.contains( QRegularExpression( "[\\\\/:*?\"<>|]" ) ) &&
-		    !name.endsWith( '.' ) ){
-			return name ;
+		auto start = line.indexOf( ": '" ) ;
+		QChar quote = '\'' ;
+
+		if( start == -1 ){
+			start = line.indexOf( ": \"" ) ;
+			quote = '"' ;
 		}
 
-		QMessageBox::warning( parent,QObject::tr( "Invalid Filename" ),
-			QObject::tr( "Use a name of at most 150 UTF-8 bytes without path separators or reserved filename characters." ) ) ;
+		if( start == -1 ){
+			continue ;
+		}
+
+		start += 3 ;
+		auto end = line.lastIndexOf( quote ) ;
+
+		if( end <= start ){
+			continue ;
+		}
+
+		auto fileName = line.mid( start,end - start ) ;
+		fileName.replace( '\\','/' ) ;
+		fileName = fileName.mid( fileName.lastIndexOf( '/' ) + 1 ) ;
+		return fileName ;
+	}
+
+	return {} ;
+}
+
+static QString editedFileNameStem( QString fileName )
+{
+	if( fileName.endsWith( ".part" ) ){
+		fileName.chop( 5 ) ;
+	}
+
+	auto dot = fileName.lastIndexOf( '.' ) ;
+	if( dot > 0 ){
+		fileName.truncate( dot ) ;
+	}
+
+	fileName.remove( QRegularExpression( "\\.f[^.]+$" ) ) ;
+	return fileName ;
+}
+
+QString promptForShortFileName( QWidget * parent,const QByteArray& output )
+{
+	QDialog dialog( parent ) ;
+	dialog.setWindowTitle( QObject::tr( "Filename Too Long" ) ) ;
+	dialog.setMinimumWidth( 550 ) ;
+
+	QVBoxLayout layout( &dialog ) ;
+	QLabel instruction( QObject::tr( "Shorten the failed filename below. yt-dlp will add the extension on retry." ),&dialog ) ;
+	QLineEdit name( &dialog ) ;
+	QLabel status( &dialog ) ;
+	QDialogButtonBox buttons( QDialogButtonBox::Ok | QDialogButtonBox::Cancel,&dialog ) ;
+
+	layout.addWidget( &instruction ) ;
+	layout.addWidget( &name ) ;
+	layout.addWidget( &status ) ;
+	layout.addWidget( &buttons ) ;
+
+	auto ok = buttons.button( QDialogButtonBox::Ok ) ;
+
+	auto updateStatus = [ & ]( const QString& value ){
+		const auto bytes = value.trimmed().toUtf8().size() ;
+		const auto stem = utility::editedFileNameStem( value.trimmed() ) ;
+		const auto forbidden = value.contains( QRegularExpression( "[\\\\/:*?\"<>|]" ) ) ||
+			value.endsWith( '.' ) ;
+
+		if( bytes > 150 ){
+			status.setText( QObject::tr( "Too long: %1 UTF-8 bytes (maximum 150)." ).arg( bytes ) ) ;
+		}else if( stem.isEmpty() ){
+			status.setText( QObject::tr( "Enter a filename." ) ) ;
+		}else if( forbidden ){
+			status.setText( QObject::tr( "Remove path separators and reserved filename characters." ) ) ;
+		}else{
+			status.setText( QObject::tr( "Filename length is OK." ) ) ;
+		}
+
+		ok->setEnabled( !stem.isEmpty() && bytes <= 150 && !forbidden ) ;
+	} ;
+	QObject::connect( &name,&QLineEdit::textChanged,&dialog,updateStatus ) ;
+
+	QObject::connect( &buttons,&QDialogButtonBox::accepted,&dialog,&QDialog::accept ) ;
+	QObject::connect( &buttons,&QDialogButtonBox::rejected,&dialog,&QDialog::reject ) ;
+
+	name.setText( utility::failedFileName( output ) ) ;
+	updateStatus( name.text() ) ;
+	name.setFocus() ;
+
+	if( dialog.exec() == QDialog::Accepted ){
+		return utility::editedFileNameStem( name.text().trimmed() ) ;
+	}else{
+		return {} ;
 	}
 }
 
@@ -84,7 +172,7 @@ QString shortFileNameTemplate( const QString& name )
 {
 	auto escaped = name ;
 	escaped.replace( '%',"%%" ) ;
-	return escaped + "-%(id)s.%(ext)s" ;
+	return escaped + ".%(ext)s" ;
 }
 
 void applyShortFileNameTemplate( QStringList& args,const QString& name )

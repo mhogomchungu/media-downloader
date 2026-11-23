@@ -513,7 +513,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 			if( !m_getList && !m.success() && !m.cancelled() &&
 			    m_engine.likeYtDlp() && utility::filenameTooLongError( m_output ) ){
-				auto name = utility::promptForShortFileName( &m_parent.m_ctx.mainWidget() ) ;
+				auto name = utility::promptForShortFileName( &m_parent.m_ctx.mainWidget(),m_output ) ;
 
 				if( !name.isEmpty() ){
 					m_parent.m_retryOutputTemplate = utility::shortFileNameTemplate( name ) ;

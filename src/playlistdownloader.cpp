@@ -871,7 +871,7 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 		{
 			if( !st.success() && !st.cancelled() && m_engine.likeYtDlp() &&
 			    utility::filenameTooLongError( m_output ) ){
-				auto name = utility::promptForShortFileName( &m_parent.m_ctx.mainWidget() ) ;
+				auto name = utility::promptForShortFileName( &m_parent.m_ctx.mainWidget(),m_output ) ;
 
 				if( !name.isEmpty() ){
 					m_parent.m_retryOutputTemplates.insert( m_index,utility::shortFileNameTemplate( name ) ) ;
