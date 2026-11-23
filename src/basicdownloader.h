@@ -73,6 +73,7 @@ private:
 	tableWidget m_hiddenTable ;
 	utility::downLoadOptions m_extraOptions ;
 	utility::Terminator m_terminator ;
+	QString m_retryOutputTemplate ;
 
 	void run( const basicdownloader::engine& engine,
 		  const QStringList& args,

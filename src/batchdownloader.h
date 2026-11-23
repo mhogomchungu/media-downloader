@@ -22,6 +22,7 @@
 #include <QString>
 #include <QStringList>
 #include <QMenu>
+#include <QHash>
 
 #include "settings.h"
 #include "utility.h"
@@ -400,16 +401,20 @@ private:
 		class events
 		{
 		public:
-			events( batchdownloader& p,const engines::engine& engine,int index,Event e ) :
+			events( batchdownloader& p,const engines::engine& engine,int index,Event e,bool recursive ) :
 				m_parent( p ),
 				m_engine( engine ),
 				m_index( index ),
-				m_event( e.move() )
+				m_event( e.move() ),
+				m_recursive( recursive )
 			{
 				m_event.whenCreated() ;
 			}
 			bool addData( const QByteArray& e )
 			{
+				m_output += e ;
+				m_output = m_output.right( 32768 ) ;
+
 				if( utility::containsLinkerWarning( e ) ){
 
 					return false ;
@@ -423,6 +428,27 @@ private:
 			}
 			void done( engines::ProcessExitState st,const std::vector< QByteArray >& fileNames )
 			{
+				if( !st.success() && !st.cancelled() && m_engine.likeYtDlp() &&
+				    utility::filenameTooLongError( m_output ) ){
+					auto name = utility::promptForShortFileName( &m_parent.m_ctx.mainWidget() ) ;
+
+					if( !name.isEmpty() ){
+						m_parent.m_retryOutputTemplates.insert( m_index,utility::shortFileNameTemplate( name ) ) ;
+						auto parent = &m_parent ;
+						auto engine = &m_engine ;
+						auto index = m_index ;
+						auto recursive = m_recursive ;
+						QTimer::singleShot( 0,parent,[ parent,engine,index,recursive ](){
+							if( recursive ){
+								parent->downloadRecursively( *engine,index ) ;
+							}else{
+								parent->downloadSingle( *engine,index ) ;
+							}
+						} ) ;
+						return ;
+					}
+				}
+
 				reportFinished::finishedStatus::state m ;
 
 				m_event.whenDone( st,fileNames ) ;
@@ -458,6 +484,8 @@ private:
 			const engines::engine& m_engine ;
 			int m_index ;
 			Event m_event ;
+			bool m_recursive ;
+			QByteArray m_output ;
 		} ;
 
 		auto updater = [ this,index ]( const QByteArray& e ){
@@ -484,9 +512,14 @@ private:
 
 		m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
-		auto updateOpts = [ &engine ]( QStringList opts ){
+		auto updateOpts = [ this,&engine,index ]( QStringList opts ){
 
 			engine.updateLocalOptions( opts ) ;
+
+			auto outputTemplate = m_retryOutputTemplates.take( index ) ;
+			if( !outputTemplate.isEmpty() ){
+				utility::applyShortFileNameTemplate( opts,outputTemplate ) ;
+			}
 
 			return opts ;
 		} ;
@@ -511,7 +544,7 @@ private:
 				  m_ctx,
 				  { dopt,{ index,m_table.rowCount() },ent },
 				  m_terminator.setUp(),
-				  events( *this,engine,index,event.move() ),
+				  events( *this,engine,index,event.move(),downloadRecursively ),
 				  logger.move() ) ;
 	}
 
@@ -749,6 +782,7 @@ private:
 	QPixmap m_defaultVideoThumbnail ;
 	batchdownloader::listType m_listType ;
 	utility::Terminator m_terminator ;
+	QHash< int,QString > m_retryOutputTemplates ;
 	widgetOverMainTable m_widgetOverMainTable ;
 	QByteArray m_downloadingComments ;
 	initEvent m_initEvent ;

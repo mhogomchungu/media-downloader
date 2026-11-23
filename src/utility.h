@@ -57,6 +57,7 @@
 
 class Context ;
 class ContextWinId ;
+class QWidget ;
 
 class tabManager ;
 
@@ -67,6 +68,10 @@ namespace Ui
 
 namespace utility
 {
+	bool filenameTooLongError( const QByteArray& ) ;
+	QString promptForShortFileName( QWidget * ) ;
+	QString shortFileNameTemplate( const QString& ) ;
+	void applyShortFileNameTemplate( QStringList&,const QString& ) ;
 	namespace impl
 	{
 		void qJsonArrJoin( QJsonArray& ) ;

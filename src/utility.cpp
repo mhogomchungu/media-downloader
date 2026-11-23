@@ -36,6 +36,9 @@
 #include <QFile>
 #include <QDir>
 #include <QJsonDocument>
+#include <QInputDialog>
+#include <QMessageBox>
+#include <QRegularExpression>
 
 #include <ctime>
 #include <cstring>
@@ -46,6 +49,59 @@
 
 namespace utility
 {
+
+bool filenameTooLongError( const QByteArray& output )
+{
+	return output.contains( "File name too long" ) ||
+	       output.contains( "Filename too long" ) ||
+	       output.contains( "WinError 206" ) ;
+}
+
+QString promptForShortFileName( QWidget * parent )
+{
+	for( ;; ){
+		bool accepted = false ;
+		auto name = QInputDialog::getText( parent,QObject::tr( "Filename Too Long" ),
+			QObject::tr( "Enter a shorter filename (without an extension):" ),
+			QLineEdit::Normal,QString(),&accepted ).trimmed() ;
+
+		if( !accepted ){
+			return {} ;
+		}
+
+		if( !name.isEmpty() && name.toUtf8().size() <= 150 &&
+		    !name.contains( QRegularExpression( "[\\\\/:*?\"<>|]" ) ) &&
+		    !name.endsWith( '.' ) ){
+			return name ;
+		}
+
+		QMessageBox::warning( parent,QObject::tr( "Invalid Filename" ),
+			QObject::tr( "Use a name of at most 150 UTF-8 bytes without path separators or reserved filename characters." ) ) ;
+	}
+}
+
+QString shortFileNameTemplate( const QString& name )
+{
+	auto escaped = name ;
+	escaped.replace( '%',"%%" ) ;
+	return escaped + "-%(id)s.%(ext)s" ;
+}
+
+void applyShortFileNameTemplate( QStringList& args,const QString& name )
+{
+	QString directory ;
+
+	for( int i = 0 ; i + 1 < args.size() ; i++ ){
+		if( args[ i ] == "-o" || args[ i ] == "--output" ){
+			const auto& value = args[ i + 1 ] ;
+			auto slash = qMax( value.lastIndexOf( '/' ),value.lastIndexOf( '\\' ) ) ;
+			directory = value.left( slash + 1 ) ;
+		}
+	}
+
+	args.insert( args.size() - 1,"--output" ) ;
+	args.insert( args.size() - 1,directory + name ) ;
+}
 
 PretendPlatform * platForms::m_pointerretendPlatform = nullptr ;
 SysPlatForm * platForms::m_pointerSystemPlatform = nullptr ;
