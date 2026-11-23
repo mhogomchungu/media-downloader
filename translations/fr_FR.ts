@@ -751,10 +751,6 @@ Exemple 2&#xa0;: ${gateway}:8080</translation>
         <translation>Débuter le téléchargement</translation>
     </message>
     <message>
-        <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation>Problème en vue, échec de la suppression du dossier&#xa0;: %1</translation>
-    </message>
-    <message>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation>Impossible de trouver le fichier exécutable « bsdtar.exe »</translation>
     </message>

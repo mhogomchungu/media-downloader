@@ -759,10 +759,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Завантажити</translation>
     </message>
     <message>
-        <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation>Проблема не вдалося видалити папку: %1</translation>
-    </message>
-    <message>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation>Не вдалося знайти виконуваний файл &quot;bsdtar.exe&quot;</translation>
     </message>

@@ -763,10 +763,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>다운로드 시작</translation>
     </message>
     <message>
-        <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation>문제 발생, 폴더를 삭제하지 못함: %1</translation>
-    </message>
-    <message>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation>&quot;bsdtar.exe&quot; 실행 파일을 찾지 못했습니다.</translation>
     </message>

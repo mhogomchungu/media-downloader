@@ -707,10 +707,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Ağ %1 saniye içinde yanıt vermedi</translation>
     </message>
     <message>
-        <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation>Sorun Var, Klasör Silinemedi: %1</translation>
-    </message>
-    <message>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation>&quot;bsdtar.exe&quot; Çalıştırılabilir Dosyası Bulunamadı</translation>
     </message>

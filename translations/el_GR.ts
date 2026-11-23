@@ -752,10 +752,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Έναρξη λήψης</translation>
     </message>
     <message>
-        <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation>Προβλήματα, απέτυχε η διαγραφή του φακέλου: %1</translation>
-    </message>
-    <message>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation>Απέτυχε η εύρεση του εκτέλεσιμου &quot;bsdtar.exe&quot;</translation>
     </message>

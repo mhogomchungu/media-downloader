@@ -967,10 +967,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>القناة الآمنة لويندوز</translation>
     </message>
     <message>
-        <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation>هناك مشكلة، فشل حذف المجلد: %1</translation>
-    </message>
-    <message>
         <source>Arabic</source>
         <translation>العربية</translation>
     </message>

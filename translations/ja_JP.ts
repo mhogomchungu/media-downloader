@@ -751,10 +751,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>ダウンロード開始</translation>
     </message>
     <message>
-        <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation>注意: フォルダを削除できません: %1</translation>
-    </message>
-    <message>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation>実行ファイル &quot;bsdtar.exe&quot; が見つかりません</translation>
     </message>

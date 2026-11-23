@@ -759,10 +759,6 @@ Exemplo 2: ${gateway}:8080</translation>
         <translation>Iniciar o Download</translation>
     </message>
     <message>
-        <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation>Problema à frente, falha ao excluir pasta: %1</translation>
-    </message>
-    <message>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation>Falha ao encontrar o executável &quot;bsdtar.exe&quot;</translation>
     </message>

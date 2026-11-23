@@ -81,7 +81,7 @@
     </message>
     <message>
         <source>Monitor Clipboard For Url</source>
-        <translation>Zwischenablage auf URL's überwachen</translation>
+        <translation>Zwischenablage auf URL&apos;s überwachen</translation>
     </message>
     <message>
         <source>Add Url To List</source>
@@ -212,7 +212,7 @@
         <translation>Speichern</translation>
     </message>
     <message>
-        <source>Engine's Default Options</source>
+        <source>Engine&apos;s Default Options</source>
         <translation>Download-Tools Standardoptionen</translation>
     </message>
     <message>
@@ -276,7 +276,7 @@
         <translation>Webseite</translation>
     </message>
     <message>
-        <source>Engine's Name</source>
+        <source>Engine&apos;s Name</source>
         <translation>Engine-Name</translation>
     </message>
     <message>
@@ -348,7 +348,7 @@ Beispiel 2: ${gateway}:8080</translation>
         <translation>Schaltfläche zum Öffnen eines Ordners, in dem sich die Konfigurationsdateien für Themen befinden</translation>
     </message>
     <message>
-        <source>A Button To Open A Folder Where Extension's Binaries Are Stored</source>
+        <source>A Button To Open A Folder Where Extension&apos;s Binaries Are Stored</source>
         <translation>Schaltfläche zum Öffnen des Ordners, in dem die Binärdateien der Erweiterung gespeichert sind</translation>
     </message>
     <message>
@@ -392,7 +392,7 @@ Beispiel 2: ${gateway}:8080</translation>
         <translation>Benachrichtigung, sobald alle Downloads abgeschlossen sind</translation>
     </message>
     <message>
-        <source>Engine's Options</source>
+        <source>Engine&apos;s Options</source>
         <translation>Engine-Optionen</translation>
     </message>
     <message>
@@ -455,8 +455,8 @@ Beispiel 2: ${gateway}:8080</translation>
         <translation>%1 Voreinstellungsoption(en)</translation>
     </message>
     <message>
-        <source>Filename with ".txt" Extension Will Save Urls Only</source>
-        <translation>Dateiname mit Endung '.txt' speichert ausschließlich URL's</translation>
+        <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
+        <translation>Dateiname mit Endung &apos;.txt&apos; speichert ausschließlich URL&apos;s</translation>
     </message>
     <message>
         <source>Hide Row</source>
@@ -599,32 +599,32 @@ Beispiel 2: ${gateway}:8080</translation>
         <translation>Niederländisch (Niederlande)</translation>
     </message>
     <message>
-        <source>Error, executable to backend "%1" could not be found</source>
-        <translation>Fehler, ausführbare Datei zum Backend '%1' konnte nicht gefunden werden</translation>
+        <source>Error, executable to backend &quot;%1&quot; could not be found</source>
+        <translation>Fehler, ausführbare Datei zum Backend &apos;%1&apos; konnte nicht gefunden werden</translation>
     </message>
     <message>
-        <source>Engine "%1" requires atleast version "%2" of Media Downloader</source>
-        <translation>Download-Tool '%1' erfordert mindestens Version '%2' des Media Downloader's</translation>
+        <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
+        <translation>Download-Tool &apos;%1&apos; erfordert mindestens Version &apos;%2&apos; des Media Downloader&apos;s</translation>
     </message>
     <message>
         <source>To Disable These Checks, Do The Following:-</source>
         <translation>Um diese Prüfungen zu deaktivieren, gehe wie folgt vor:-</translation>
     </message>
     <message>
-        <source>1. Go To "Configure" Tab.</source>
-        <translation>1. Gehe zum Tab 'Konfigurieren'.</translation>
+        <source>1. Go To &quot;Configure&quot; Tab.</source>
+        <translation>1. Gehe zum Tab &apos;Konfigurieren&apos;.</translation>
     </message>
     <message>
-        <source>2. Go To "General Options" Sub Tab.</source>
-        <translation>2. Geh zu 'Allgemeine Optionen' Unter-Tab.</translation>
+        <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
+        <translation>2. Geh zu &apos;Allgemeine Optionen&apos; Unter-Tab.</translation>
     </message>
     <message>
-        <source>3. Click "Actions At StartUp" Menu.</source>
-        <translation>3. Klicke auf das Menü 'Aktionen beim Start'.</translation>
+        <source>3. Click &quot;Actions At StartUp&quot; Menu.</source>
+        <translation>3. Klicke auf das Menü &apos;Aktionen beim Start&apos;.</translation>
     </message>
     <message>
-        <source>4. Select "Do Nothing".</source>
-        <translation>4. Wähle 'Nichts unternehmen'.</translation>
+        <source>4. Select &quot;Do Nothing&quot;.</source>
+        <translation>4. Wähle &apos;Nichts unternehmen&apos;.</translation>
     </message>
     <message>
         <source>Running In Portable Mode</source>
@@ -651,20 +651,20 @@ Beispiel 2: ${gateway}:8080</translation>
         <translation>Proxy-Server-Adresse entfernen</translation>
     </message>
     <message>
-        <source>Error, failed to parse config file "%1"</source>
-        <translation>Fehler, die Konfigurationsdatei "%1" konnte nicht geparst werden;</translation>
+        <source>Error, failed to parse config file &quot;%1&quot;</source>
+        <translation>Fehler, die Konfigurationsdatei &quot;%1&quot; konnte nicht geparst werden;</translation>
     </message>
     <message>
         <source>Failed To Load A Plugin</source>
         <translation>Ein Plugin konnte nicht geladen werden</translation>
     </message>
     <message>
-        <source>Failed to find executable "%1"</source>
-        <translation>Die ausführbare Datei "%1" konnte nicht gefunden werden;</translation>
+        <source>Failed to find executable &quot;%1&quot;</source>
+        <translation>Die ausführbare Datei &quot;%1&quot; konnte nicht gefunden werden;</translation>
     </message>
     <message>
-        <source>Failed to find python3 executable for backend "%1"</source>
-        <translation>Die ausführbare Datei python3 für das Backend "%1" konnte nicht gefunden werden;</translation>
+        <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
+        <translation>Die ausführbare Datei python3 für das Backend &quot;%1&quot; konnte nicht gefunden werden;</translation>
     </message>
     <message>
         <source>Network Error Occured</source>
@@ -723,8 +723,8 @@ Beispiel 2: ${gateway}:8080</translation>
         <translation>Verstrichene Zeit:</translation>
     </message>
     <message>
-        <source>Failed to find version information, make sure "%1" is installed and works properly</source>
-        <translation>Es konnten keine Versionsinformationen gefunden werden, stelle sicher, dass "%1" installiert ist und ordnungsgemäß funktioniert</translation>
+        <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
+        <translation>Es konnten keine Versionsinformationen gefunden werden, stelle sicher, dass &quot;%1&quot; installiert ist und ordnungsgemäß funktioniert</translation>
     </message>
     <message>
         <source>Found version</source>
@@ -751,12 +751,8 @@ Beispiel 2: ${gateway}:8080</translation>
         <translation>Herunterladen starten</translation>
     </message>
     <message>
-        <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation>Probleme voraus: Ordner konnte nicht gelöscht werden: %1</translation>
-    </message>
-    <message>
-        <source>Failed To Find "bsdtar.exe" Executable</source>
-        <translation>Ausführbare Datei 'bsdtar.exe' wurde nicht gefunden werden</translation>
+        <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
+        <translation>Ausführbare Datei &apos;bsdtar.exe&apos; wurde nicht gefunden werden</translation>
     </message>
     <message>
         <source>Download Failed</source>
@@ -779,7 +775,7 @@ Beispiel 2: ${gateway}:8080</translation>
         <translation>Aktualisierung abgeschlossen. Neu starten, um die neue Version zu nutzen</translation>
     </message>
     <message>
-        <source>Windows' Secure Channel</source>
+        <source>Windows&apos; Secure Channel</source>
         <translation>Windows Sicherheitskanal</translation>
     </message>
     <message>
@@ -899,8 +895,8 @@ Beispiel 2: ${gateway}:8080</translation>
         <translation>Neueste Version: %1</translation>
     </message>
     <message>
-        <source>Please Update "%1" To Atleast Version "%2"</source>
-        <translation>'%1' mindestens auf Version '%2' aktualisieren</translation>
+        <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
+        <translation>&apos;%1&apos; mindestens auf Version &apos;%2&apos; aktualisieren</translation>
     </message>
     <message>
         <source>Requested Format Is Not Available</source>
@@ -1048,7 +1044,7 @@ Beispiel 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Open Urls With %2</source>
-        <translation>URL's öffnen mit %2</translation>
+        <translation>URL&apos;s öffnen mit %2</translation>
     </message>
     <message>
         <source>Default Player</source>
@@ -1060,7 +1056,7 @@ Beispiel 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Download Cancelled, Playlist Urls Are Not Allowed In This Tab</source>
-        <translation>Download abgebrochen, Playlist-URL's sind in diesem Tab nicht zulässig</translation>
+        <translation>Download abgebrochen, Playlist-URL&apos;s sind in diesem Tab nicht zulässig</translation>
     </message>
     <message>
         <source>Download Cancelled Because A Condition Was Not Met</source>
@@ -1079,8 +1075,8 @@ Beispiel 2: ${gateway}:8080</translation>
         <translation>Ukrainisch (Ukraine)</translation>
     </message>
     <message>
-        <source>Renaming "%1" to "%2"</source>
-        <translation>'%1' in '%2' umbenennen</translation>
+        <source>Renaming &quot;%1&quot; to &quot;%2&quot;</source>
+        <translation>&apos;%1&apos; in &apos;%2&apos; umbenennen</translation>
     </message>
     <message>
         <source>Renaming Failed: %3</source>
@@ -1095,8 +1091,8 @@ Beispiel 2: ${gateway}:8080</translation>
         <translation>Download ignoriert, da Hashes nicht übereinstimmen</translation>
     </message>
     <message>
-        <source>Expected "%1" but obtained "%2"</source>
-        <translation>'%1' erwartet, aber '%2' erhalten</translation>
+        <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
+        <translation>&apos;%1&apos; erwartet, aber &apos;%2&apos; erhalten</translation>
     </message>
     <message>
         <source>Failed To Remove</source>
@@ -1107,12 +1103,12 @@ Beispiel 2: ${gateway}:8080</translation>
         <translation>Datei umbenennen in: %1</translation>
     </message>
     <message>
-        <source>Skipping Checking Version Info For Engine "%1"</source>
-        <translation>Versionsinfos für Engine '%1' überprüfen wird übersprungen</translation>
+        <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
+        <translation>Versionsinfos für Engine &apos;%1&apos; überprüfen wird übersprungen</translation>
     </message>
     <message>
-        <source>Failed To Find "bsdtar" or "unzip" Executable</source>
-        <translation>Ausführbare Datei 'bsdtar' oder 'unzip' konnte nicht gefunden werden</translation>
+        <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
+        <translation>Ausführbare Datei &apos;bsdtar&apos; oder &apos;unzip&apos; konnte nicht gefunden werden</translation>
     </message>
     <message>
         <source>New Ui Scale Factor: %1</source>

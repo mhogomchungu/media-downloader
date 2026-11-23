@@ -956,10 +956,6 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <translation>Canale sicuro di Windows</translation>
     </message>
     <message>
-        <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation>Problemi in vista, impossibile eliminare la cartella: %1</translation>
-    </message>
-    <message>
         <source>Other Websites</source>
         <translation>Altri siti web</translation>
     </message>
