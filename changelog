@@ -512,3 +512,11 @@ Version 1.2.0(April 1st, 2021)
       - Pin quickjs-ng version to version 0.17.0 because version 0.18.0 hangs on 64 bit windows.
      [FLATPAK]
        - Update kde runtime to version 6.11.
+
+      Version 5.6.9(Unreleased)
+     [WINDOWS 7 AND WINDOWS 8]
+      - Use 32 bit version of quickjs-ng even in 64 bit Windows to work around a hanging bug in
+        64 bit quickjs-ng when running in 64 bit windows.
+      [ALL]
+      - Set explicit path to ffmpeg when using yt-dlp.
+      - Update translations.

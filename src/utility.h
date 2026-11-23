@@ -49,12 +49,6 @@
 
 #include "networkAccess.h"
 
-#ifdef Q_OS_WIN
-#if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
-#include <QNtfsPermissionCheckGuard>
-#endif
-#endif
-
 class Context ;
 class ContextWinId ;
 
@@ -508,7 +502,6 @@ namespace utility
 		{
 			if( m_major == 10 && m_minor == 0 ){
 
-				//Windows10 22H2(Windows 10 October 2022 Update)
 				return m_patch >= 19045 ;
 			}else{
 				return false ;
@@ -563,7 +556,6 @@ namespace utility
 				m_isAncientWindows  = this->AncientWindows( m ) ;
 				m_isLegacyWindows   = this->LegacyWindows( m ) ;
 				m_isModernWindows   = this->ModernWindows( m ) ;
-
 			}
 		}
 		bool isAncientWindows() const
@@ -631,7 +623,7 @@ namespace utility
 	public:
 		platForms( const QStringList& m ) : m_pretendPlatform( m )
 		{
-			m_pointerretendPlatform = &m_pretendPlatform ;
+			m_pointerPretendPlatform = &m_pretendPlatform ;
 
 			m_systemPlatform = std::make_unique< utility::SysPlatForm >() ;
 
@@ -639,7 +631,7 @@ namespace utility
 		}
 		static const utility::PretendPlatform& pretendPlatform()
 		{
-			return *m_pointerretendPlatform ;
+			return *m_pointerPretendPlatform ;
 		}
 		static const utility::SysPlatForm& systemPlatform()
 		{
@@ -648,7 +640,7 @@ namespace utility
 	private:
 		utility::PretendPlatform m_pretendPlatform ;
 		std::unique_ptr< utility::SysPlatForm > m_systemPlatform ;
-		static utility::PretendPlatform * m_pointerretendPlatform ;
+		static utility::PretendPlatform * m_pointerPretendPlatform ;
 		static utility::SysPlatForm * m_pointerSystemPlatform ;
 	} ;
 

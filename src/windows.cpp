@@ -35,6 +35,11 @@
 #include <QOperatingSystemVersion>
 #include <QDir>
 
+windows::OsVersion windows::OperatingSystemVersion()
+{
+	return QOperatingSystemVersion::current() ;
+}
+
 QString windows::applicationDirPath()
 {
 	std::array< wchar_t,4096 > buffer ;
@@ -558,6 +563,11 @@ void windows::enableCheckPermissions()
 
 void windows::disableCheckPermissions()
 {
+}
+
+windows::OsVersion windows::OperatingSystemVersion()
+{
+	return {} ;
 }
 
 #endif

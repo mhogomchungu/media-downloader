@@ -26,6 +26,38 @@
 
 namespace windows
 {
+	class OsVersion
+	{
+	public:
+		template< typename T >
+		OsVersion( const T& t ) :
+			m_major( t.majorVersion() ),
+			m_minor( t.minorVersion() ),
+			m_micro( t.microVersion() )
+		{
+		}
+		OsVersion()
+		{
+		}
+		int majorVersion() const
+		{
+			return m_major ;
+		}
+		int minorVersion() const
+		{
+			return m_minor ;
+		}
+		int microVersion() const
+		{
+			return m_micro ;
+		}
+	private:
+		int m_major = 0 ;
+		int m_minor = 0 ;
+		int m_micro = 0 ;
+	};
+
+	windows::OsVersion OperatingSystemVersion() ;
 	QString applicationDirPath() ;
 	QString gateWayAddress() ;
 	QString getClipBoardText( const ContextWinId& wId ) ;

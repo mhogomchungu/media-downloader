@@ -47,7 +47,7 @@
 namespace utility
 {
 
-PretendPlatform * platForms::m_pointerretendPlatform = nullptr ;
+PretendPlatform * platForms::m_pointerPretendPlatform = nullptr ;
 SysPlatForm * platForms::m_pointerSystemPlatform = nullptr ;
 
 namespace local
@@ -291,12 +291,14 @@ utility::FileSystemErrorReporter::~FileSystemErrorReporter()
 
 utility::OperatingSystemVersion::OperatingSystemVersion()
 {
-#ifdef Q_OS_WIN
-	auto s = QOperatingSystemVersion::current() ;
-	m_major = s.majorVersion() ;
-	m_minor = s.minorVersion() ;
-	m_patch = s.microVersion() ;
-#endif
+	if( utility::platformIsWindows() ){
+
+		auto s = windows::OperatingSystemVersion() ;
+
+		m_major = s.majorVersion() ;
+		m_minor = s.minorVersion() ;
+		m_patch = s.microVersion() ;
+	}
 }
 
 void utility::threadSleep( int s )
@@ -317,11 +319,12 @@ QStringList utility::dirEntries( const QString& e )
 
 QString utility::SysPlatForm::errorMessage() const
 {
-#ifdef Q_OS_WIN
-	return windows::errorMessage() ;
-#else
-	return strerror( errno ) ;
-#endif
+	if( utility::platformIsWindows() ){
+
+		return windows::errorMessage() ;
+	}else{
+		return strerror( errno ) ;
+	}
 }
 
 bool utility::SysPlatForm::AncientWindows( const utility::OperatingSystemVersion& system )
@@ -358,7 +361,7 @@ bool utility::SysPlatForm::LegacyWindows( const utility::OperatingSystemVersion&
 {
 	const auto& m = utility::local::pretendPlatform() ;
 
-	if( m.isLegacyWindows() || m.isWindows7() || system.windows7_or_8() ){
+	if( m.isLegacyWindows() || system.windows7_or_8() ){
 
 		return true ;
 	}else{
