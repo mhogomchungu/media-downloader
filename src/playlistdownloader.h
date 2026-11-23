@@ -20,6 +20,7 @@
 #define PLAYLIST_DOWNLOADER
 
 #include "utility.h"
+#include <QHash>
 
 #include "settings.h"
 #include "context.hpp"
@@ -137,6 +138,7 @@ private:
 	int m_networkRunning = 0 ;
 
 	utility::Terminator m_terminator ;
+	QHash< int,QString > m_retryOutputTemplates ;
 
 	QPixmap m_defaultVideoThumbnailIcon ;
 	QPixmap m_defaultErrorVideoThumbnailIcon ;

@@ -853,6 +853,9 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 		}
 		bool addData( const QByteArray& e )
 		{
+			m_output += e ;
+			m_output = m_output.right( 32768 ) ;
+
 			if( utility::containsLinkerWarning( e ) ){
 
 				return false ;
@@ -866,6 +869,23 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 		}
 		void done( engines::ProcessExitState st,const std::vector< QByteArray >& fileNames )
 		{
+			if( !st.success() && !st.cancelled() && m_engine.likeYtDlp() &&
+			    utility::filenameTooLongError( m_output ) ){
+				auto name = utility::promptForShortFileName( &m_parent.m_ctx.mainWidget(),m_output ) ;
+
+				if( !name.isEmpty() ){
+					m_parent.m_retryOutputTemplates.insert( m_index,utility::shortFileNameTemplate( name ) ) ;
+					auto parent = &m_parent ;
+					auto engine = &m_engine ;
+					auto index = m_index ;
+					auto recursive = m_downloadRecursively ;
+					QTimer::singleShot( 0,parent,[ parent,engine,index,recursive ](){
+						parent->downloadRecursively( *engine,index,recursive ) ;
+					} ) ;
+					return ;
+				}
+			}
+
 			m_parent.m_ctx.mainWindow().setTitle( m_parent.m_table.completeProgress( 1 ) ) ;
 
 			m_parent.m_banner.updateTimer() ;
@@ -928,6 +948,7 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 		const engines::engine& m_engine ;
 		int m_index ;
 		bool m_downloadRecursively ;
+		QByteArray m_output ;
 	} ;
 
 	auto m = m_ui.lineEditPLUrlOptions->text() ;
@@ -951,7 +972,11 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 	m_table.setStateAsRunning( index,downloadRecursively ) ;
 	m_table.setConcurrentId( index,id ) ;
 
-	auto optsUpdater = [ this,&engine ]( QStringList opts ){
+		auto optsUpdater = [ this,&engine,index ]( QStringList opts ){
+			auto outputTemplate = m_retryOutputTemplates.take( index ) ;
+			if( !outputTemplate.isEmpty() ){
+				utility::applyShortFileNameTemplate( opts,outputTemplate ) ;
+			}
 
 		if( m_ctx.Settings().useInternalArchiveFile() ){
 

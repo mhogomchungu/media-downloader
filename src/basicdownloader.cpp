@@ -511,6 +511,17 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 			m_parent.m_ui.pbCancel->setEnabled( false ) ;
 
+			if( !m_getList && !m.success() && !m.cancelled() &&
+			    m_engine.likeYtDlp() && utility::filenameTooLongError( m_output ) ){
+				auto name = utility::promptForShortFileName( &m_parent.m_ctx.mainWidget(),m_output ) ;
+
+				if( !name.isEmpty() ){
+					m_parent.m_retryOutputTemplate = utility::shortFileNameTemplate( name ) ;
+					m_parent.download( m_parent.m_ui.lineEditURL->text() ) ;
+					return ;
+				}
+			}
+
 			if( m_getList ){
 
 				m_parent.listRequested( m_listData,m_id ) ;
@@ -552,6 +563,11 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		}
 		bool addData( const QByteArray& e )
 		{
+			if( !m_getList ){
+				m_output += e ;
+				m_output = m_output.right( 32768 ) ;
+			}
+
 			if( m_getList ){
 
 				m_listData += e ;
@@ -605,6 +621,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		int m_id ;
 		bool m_getList ;
 		QByteArray m_listData ;
+		QByteArray m_output ;
 	} ;
 
 	events ev( *this,eng.id,getList,eng.engine ) ;
@@ -621,7 +638,14 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 	ll.setMaxProcessLog( 1 ) ;
 
-	utility::run( args,credentials,ctx.move() ) ;
+	auto runArgs = args ;
+
+	if( !getList && !m_retryOutputTemplate.isEmpty() ){
+		utility::applyShortFileNameTemplate( runArgs,m_retryOutputTemplate ) ;
+		m_retryOutputTemplate.clear() ;
+	}
+
+	utility::run( runArgs,credentials,ctx.move() ) ;
 }
 
 void basicdownloader::tabEntered()
